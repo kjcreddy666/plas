@@ -1,0 +1,8 @@
+backend/.mvn/
+backend/mvnw
+backend/mvnw.cmd
+backend/target/
+
+frontend/.vscode/
+frontend/node_modules/
+frontend/package-lock.json
