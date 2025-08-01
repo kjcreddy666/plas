@@ -23,11 +23,11 @@ public class SupportTicket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private Users user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "loan_id")
     private LoanApplication loanApplication;
 
@@ -48,9 +48,17 @@ public class SupportTicket {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
+    private LocalDateTime updatedAt;
+
     @Size(max = 1000, message = "Response can be at most 1000 characters")
     @Column(nullable = false)
-    @NotBlank(message = "Response is required")
     private String response;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+        this.status = TicketStatus.OPEN;
+        this.response = "";
+    }
 
 }
