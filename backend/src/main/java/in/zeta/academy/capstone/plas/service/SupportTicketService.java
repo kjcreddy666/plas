@@ -29,8 +29,7 @@ public class SupportTicketService {
     public SupportTicket createTicket( @Valid @NotNull TicketRequestDto dto) {
         Users user = userService.getUserById(dto.getUserId());
         LoanApplication loanApplication = loanApplicationService
-                .getApplicationById(dto.getLoanApplicationId())
-                .orElseThrow(() -> new RuntimeException("Loan application not found"));
+                .getApplicationById(dto.getLoanApplicationId());
 
         SupportTicket ticket = SupportTicket.builder()
                 .user(user)
