@@ -1,15 +1,15 @@
 package in.zeta.academy.capstone.plas.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class LoginResponse {
     @NotBlank
     private boolean isSuccess;
