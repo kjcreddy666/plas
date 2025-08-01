@@ -35,4 +35,16 @@ public class GlobalExceptionHandler {
         response.put("message", message);
         return response;
     }
+    
+    @ExceptionHandler(TicketNotFoundException.class)
+    public ResponseEntity<Object> handleTicketNotFound(TicketNotFoundException ex) {
+        return new ResponseEntity<>(buildResponse(ex.getMessage(), HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> handleException(Exception ex) {
+        return new ResponseEntity<>(buildResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+
 }
