@@ -19,7 +19,6 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class AuthService {
-
     private final UserService userService;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
