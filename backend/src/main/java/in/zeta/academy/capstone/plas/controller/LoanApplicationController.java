@@ -29,9 +29,11 @@ public class LoanApplicationController {
 
     @GetMapping("/{loanId}")
     public ResponseEntity<LoanApplication> getApplicationById(@PathVariable Long loanId) {
-        return loanApplicationService.getApplicationById(loanId)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        LoanApplication loanApplication = loanApplicationService.getApplicationById(loanId);
+        if(loanApplication == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(loanApplication);
     }
 }
 
