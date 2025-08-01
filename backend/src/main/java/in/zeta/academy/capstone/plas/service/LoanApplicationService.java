@@ -2,6 +2,7 @@ package in.zeta.academy.capstone.plas.service;
 import in.zeta.academy.capstone.plas.entity.LoanApplication;
 import in.zeta.academy.capstone.plas.entity.Users;
 import in.zeta.academy.capstone.plas.enums.LoanApplicationStatus;
+import in.zeta.academy.capstone.plas.exception.LoanNotFoundException;
 import in.zeta.academy.capstone.plas.exception.UserNotFoundException;
 import in.zeta.academy.capstone.plas.repository.LoanApplicationRepository;
 import in.zeta.academy.capstone.plas.repository.UserRepository;
@@ -48,8 +49,8 @@ public class LoanApplicationService {
     public List<LoanApplication> getApplicationsByUser(UUID userId) {
         return loanApplicationRepository.findByUserId(userId);
     }
-    public Optional<LoanApplication> getApplicationById(Long loanId) {
-        return loanApplicationRepository.findById(loanId);
+    public LoanApplication getApplicationById(Long loanId) {
+        return loanApplicationRepository.findById(loanId).orElseThrow(() -> new LoanNotFoundException("Loan application not found with ID: " + loanId));
     }
 }
 
