@@ -10,7 +10,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterRequest {
+public class RegisterRequestDto {
 
     @NotBlank
     @Pattern(regexp = "^[A-Za-z ]+$", message = "Name must contain only alphabets and spaces")

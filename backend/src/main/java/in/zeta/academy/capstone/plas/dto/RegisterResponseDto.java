@@ -3,18 +3,15 @@ package in.zeta.academy.capstone.plas.dto;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
-import java.util.UUID;
-
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginResponse {
+public class RegisterResponseDto {
     @NotBlank
-    private boolean isSuccess;
+    private String isSuccess;
+
     @NotBlank
     private String message;
-    private String token;
-    private UUID id;
 }

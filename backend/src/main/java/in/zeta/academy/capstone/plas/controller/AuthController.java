@@ -1,9 +1,9 @@
 package in.zeta.academy.capstone.plas.controller;
 
-import in.zeta.academy.capstone.plas.dto.LoginRequest;
-import in.zeta.academy.capstone.plas.dto.LoginResponse;
-import in.zeta.academy.capstone.plas.dto.RegisterRequest;
-import in.zeta.academy.capstone.plas.dto.RegisterResponse;
+import in.zeta.academy.capstone.plas.dto.LoginRequestDto;
+import in.zeta.academy.capstone.plas.dto.LoginResponseDto;
+import in.zeta.academy.capstone.plas.dto.RegisterRequestDto;
+import in.zeta.academy.capstone.plas.dto.RegisterResponseDto;
 import in.zeta.academy.capstone.plas.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,14 +18,14 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
-        LoginResponse response = authService.login(loginRequest);
+    public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
+        LoginResponseDto response = authService.login(loginRequestDto);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<RegisterResponse> register(@Valid @RequestBody RegisterRequest registerRequest) {
-        RegisterResponse response = authService.register(registerRequest);
+    public ResponseEntity<RegisterResponseDto> register(@Valid @RequestBody RegisterRequestDto registerRequestDto) {
+        RegisterResponseDto response = authService.register(registerRequestDto);
         return ResponseEntity.ok(response);
     }
 }
