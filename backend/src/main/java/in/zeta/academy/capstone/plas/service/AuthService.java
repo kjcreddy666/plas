@@ -11,6 +11,7 @@ import in.zeta.academy.capstone.plas.security.JwtService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -18,8 +19,10 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class AuthService {
+
     private final UserService userService;
     private final JwtService jwtService;
+    private final PasswordEncoder passwordEncoder;
 
     public LoginResponseDto login(@Valid @NotNull LoginRequestDto loginRequestDto) {
         Users user;
@@ -32,12 +35,13 @@ public class AuthService {
             throw new UserNotFoundException("Either email or mobile must be provided for login.");
         }
 
-        boolean passwordMatches = user.getPassword().equals(loginRequestDto.getPassword());
+        boolean passwordMatches = passwordEncoder.matches(
+                loginRequestDto.getPassword(), user.getPassword());
 
         return LoginResponseDto.builder()
                 .isSuccess(passwordMatches)
                 .message(passwordMatches ? "Login successful" : "Invalid credentials")
-                .token(passwordMatches ? jwtService.generateToken(user) : null) // TODO: Replace with actual token
+                .token(passwordMatches ? jwtService.generateToken(user) : null)
                 .id(passwordMatches ? user.getId() : null)
                 .build();
     }
@@ -48,9 +52,9 @@ public class AuthService {
                 .name(registerRequestDto.getName())
                 .email(registerRequestDto.getEmail())
                 .mobile(Long.parseLong(registerRequestDto.getMobile()))
-                .password(registerRequestDto.getPassword())
+                .password(passwordEncoder.encode(registerRequestDto.getPassword())) // hash here
                 .address(registerRequestDto.getAddress())
-                .role(Role.CUSTOMER) // Default role
+                .role(Role.CUSTOMER)
                 .build();
 
         userService.createUser(user);
