@@ -27,9 +27,9 @@ public class AdminController {
         return ResponseEntity.ok(pendingApplications);
     }
 
-    @GetMapping("/pending/filter")
-    public ResponseEntity<List<LoanApplication>> getFilteredPendingApplications(@RequestParam List<LoanApplicationStatus> statuses) {
-        List<LoanApplication> filteredApplications = loanApplicationService.getFilteredPendingLoanApplications(statuses);
+    @GetMapping("/filter")
+    public ResponseEntity<List<LoanApplication>> getFilteredApplications(@RequestParam List<LoanApplicationStatus> statuses) {
+        List<LoanApplication> filteredApplications = loanApplicationService.getFilteredLoanApplications(statuses);
         if (filteredApplications.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
