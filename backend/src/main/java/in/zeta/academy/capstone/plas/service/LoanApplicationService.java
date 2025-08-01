@@ -1,7 +1,11 @@
 package in.zeta.academy.capstone.plas.service;
 import in.zeta.academy.capstone.plas.entity.LoanApplication;
+import in.zeta.academy.capstone.plas.entity.Users;
 import in.zeta.academy.capstone.plas.enums.LoanApplicationStatus;
+import in.zeta.academy.capstone.plas.exception.LoanNotFoundException;
+import in.zeta.academy.capstone.plas.exception.UserNotFoundException;
 import in.zeta.academy.capstone.plas.repository.LoanApplicationRepository;
+import in.zeta.academy.capstone.plas.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +20,8 @@ import java.util.UUID;
 public class LoanApplicationService {
     @Autowired
     LoanApplicationRepository loanApplicationRepository;
+    @Autowired
+    UserRepository userRepository;
     @Transactional
     public LoanApplication applyForLoan(LoanApplication loanApplication) {
         if (loanApplication.getIncome() < 25000) {
@@ -32,6 +38,9 @@ public class LoanApplicationService {
             throw new IllegalArgumentException("You can only submit one application every 24 hours");
         }
 
+        Users user = userRepository.findById(loanApplication.getUser().getId())
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + loanApplication.getUser().getId()));
+        loanApplication.setUser(user);
         loanApplication.setApplicationDate(today);
         loanApplication.setStatus(LoanApplicationStatus.NEW);
         return loanApplicationRepository.save(loanApplication);
@@ -40,8 +49,8 @@ public class LoanApplicationService {
     public List<LoanApplication> getApplicationsByUser(UUID userId) {
         return loanApplicationRepository.findByUserId(userId);
     }
-    public Optional<LoanApplication> getApplicationById(Long loanId) {
-        return loanApplicationRepository.findById(loanId);
+    public LoanApplication getApplicationById(Long loanId) {
+        return loanApplicationRepository.findById(loanId).orElseThrow(() -> new LoanNotFoundException("Loan application not found with ID: " + loanId));
     }
 }
 
