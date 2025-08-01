@@ -14,4 +14,6 @@ public interface LoanApplicationRepository extends JpaRepository<LoanApplication
 
     @Query("SELECT la FROM LoanApplication la WHERE la.user.id = ?1")
     List<LoanApplication> findByUserId(UUID userId);
+
+    List<LoanApplication> findByStatusIn(List<String> statuses);
 }
