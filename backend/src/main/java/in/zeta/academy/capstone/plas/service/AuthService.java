@@ -1,9 +1,9 @@
 package in.zeta.academy.capstone.plas.service;
 
-import in.zeta.academy.capstone.plas.dto.LoginRequest;
-import in.zeta.academy.capstone.plas.dto.LoginResponse;
-import in.zeta.academy.capstone.plas.dto.RegisterRequest;
-import in.zeta.academy.capstone.plas.dto.RegisterResponse;
+import in.zeta.academy.capstone.plas.dto.LoginRequestDto;
+import in.zeta.academy.capstone.plas.dto.LoginResponseDto;
+import in.zeta.academy.capstone.plas.dto.RegisterRequestDto;
+import in.zeta.academy.capstone.plas.dto.RegisterResponseDto;
 import in.zeta.academy.capstone.plas.entity.Users;
 import in.zeta.academy.capstone.plas.enums.Role;
 import in.zeta.academy.capstone.plas.exception.UserNotFoundException;
@@ -21,20 +21,20 @@ public class AuthService {
     private final UserService userService;
     private final JwtService jwtService;
 
-    public LoginResponse login(@Valid @NotNull LoginRequest loginRequest) {
+    public LoginResponseDto login(@Valid @NotNull LoginRequestDto loginRequestDto) {
         Users user;
 
-        if (loginRequest.getEmail() != null && !loginRequest.getEmail().isEmpty()) {
-            user = userService.getUserByEmail(loginRequest.getEmail());
-        } else if (loginRequest.getMobile() != null && !loginRequest.getMobile().isEmpty()) {
-            user = userService.getUserByMobile(Long.parseLong(loginRequest.getMobile()));
+        if (loginRequestDto.getEmail() != null && !loginRequestDto.getEmail().isEmpty()) {
+            user = userService.getUserByEmail(loginRequestDto.getEmail());
+        } else if (loginRequestDto.getMobile() != null && !loginRequestDto.getMobile().isEmpty()) {
+            user = userService.getUserByMobile(Long.parseLong(loginRequestDto.getMobile()));
         } else {
             throw new UserNotFoundException("Either email or mobile must be provided for login.");
         }
 
-        boolean passwordMatches = user.getPassword().equals(loginRequest.getPassword());
+        boolean passwordMatches = user.getPassword().equals(loginRequestDto.getPassword());
 
-        return LoginResponse.builder()
+        return LoginResponseDto.builder()
                 .isSuccess(passwordMatches)
                 .message(passwordMatches ? "Login successful" : "Invalid credentials")
                 .token(passwordMatches ? jwtService.generateToken(user) : null) // TODO: Replace with actual token
@@ -42,20 +42,20 @@ public class AuthService {
                 .build();
     }
 
-    public RegisterResponse register(@Valid @NotNull RegisterRequest registerRequest) {
+    public RegisterResponseDto register(@Valid @NotNull RegisterRequestDto registerRequestDto) {
         Users user = Users.builder()
                 .id(UUID.randomUUID())
-                .name(registerRequest.getName())
-                .email(registerRequest.getEmail())
-                .mobile(Long.parseLong(registerRequest.getMobile()))
-                .password(registerRequest.getPassword())
-                .address(registerRequest.getAddress())
+                .name(registerRequestDto.getName())
+                .email(registerRequestDto.getEmail())
+                .mobile(Long.parseLong(registerRequestDto.getMobile()))
+                .password(registerRequestDto.getPassword())
+                .address(registerRequestDto.getAddress())
                 .role(Role.CUSTOMER) // Default role
                 .build();
 
         userService.createUser(user);
 
-        return RegisterResponse.builder()
+        return RegisterResponseDto.builder()
                 .isSuccess("true")
                 .message("User registered successfully")
                 .build();
