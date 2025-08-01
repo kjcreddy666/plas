@@ -1,130 +1,46 @@
 package in.zeta.academy.capstone.plas.entity;
 import in.zeta.academy.capstone.plas.enums.LoanApplicationStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
+@Getter
+@Setter
 @Entity
 @Table(name = "loan_applications")
 public class LoanApplication {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
-    private User user;
-
+    private Users user;
+    @NotNull(message = "Loan amount is required")
     private Double amount;
+    @NotNull(message = "Tenure (in months) is required")
+    @Min(value = 6, message = "Tenure must be at least 6 months")
     private Integer tenureMonths;
+    @NotNull(message = "Income is required")
     private Double income;
+    @NotNull(message = "Credit score is required")
+    @Min(value = 300, message = "Credit score must be at least 300")
+    @Max(value = 900, message = "Credit score cannot exceed 900")
     private Integer creditScore;
+    @Enumerated(EnumType.STRING)
     private LoanApplicationStatus status;
     private LocalDate applicationDate;
+    @Size(max = 10000, message = "Purpose must not exceed 1000 characters")
     private String purpose;
-
     @ManyToOne
     @JoinColumn(name = "reviewed_by")
-    private User reviewedBy;
-
+    private Users reviewedBy;
     private LocalDateTime reviewedAt;
+    @Size(max = 1000, message = "Review remarks must not exceed 1000 characters")
     private String reviewRemarks;
 
-    // Getters and Setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
-
-    public Integer getTenureMonths() {
-        return tenureMonths;
-    }
-
-    public void setTenureMonths(Integer tenureMonths) {
-        this.tenureMonths = tenureMonths;
-    }
-
-    public Double getIncome() {
-        return income;
-    }
-
-    public void setIncome(Double income) {
-        this.income = income;
-    }
-
-    public Integer getCreditScore() {
-        return creditScore;
-    }
-
-    public void setCreditScore(Integer creditScore) {
-        this.creditScore = creditScore;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public LocalDate getApplicationDate() {
-        return applicationDate;
-    }
-
-    public void setApplicationDate(LocalDate applicationDate) {
-        this.applicationDate = applicationDate;
-    }
-
-    public String getPurpose() {
-        return purpose;
-    }
-
-    public void setPurpose(String purpose) {
-        this.purpose = purpose;
-    }
-
-    public User getReviewedBy() {
-        return reviewedBy;
-    }
-
-    public void setReviewedBy(User reviewedBy) {
-        this.reviewedBy = reviewedBy;
-    }
-
-    public LocalDateTime getReviewedAt() {
-        return reviewedAt;
-    }
-
-    public void setReviewedAt(LocalDateTime reviewedAt) {
-        this.reviewedAt = reviewedAt;
-    }
-
-    public String getReviewRemarks() {
-        return reviewRemarks;
-    }
-
-    public void setReviewRemarks(String reviewRemarks) {
-        this.reviewRemarks = reviewRemarks;
-    }
 }
