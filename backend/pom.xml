@@ -56,6 +56,12 @@
 			<optional>true</optional>
 		</dependency>
 
+		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>7.0.5.Final</version> <!-- Compatible with Jakarta Validation 3.x -->
+		</dependency>
+
 	</dependencies>
 
 	<build>
