@@ -9,4 +9,5 @@ import java.util.UUID;
 public interface LoanApplicationRepository extends JpaRepository<LoanApplication, Long> {
      List<LoanApplication> findByUserIdAndApplicationDate(UUID id, LocalDate today) ;
     List<LoanApplication> findByUserId(Long userId);
+    List<LoanApplication> findByStatusIn(List<String> statuses);
 }
