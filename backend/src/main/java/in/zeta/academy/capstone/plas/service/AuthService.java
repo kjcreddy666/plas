@@ -27,12 +27,10 @@ public class AuthService {
     public LoginResponseDto login(@Valid @NotNull LoginRequestDto loginRequestDto) {
         Users user;
 
-        if (loginRequestDto.getEmail() != null && !loginRequestDto.getEmail().isEmpty()) {
+        if (loginRequestDto.getEmail() != null && !loginRequestDto.getEmail().isBlank()) {
             user = userService.getUserByEmail(loginRequestDto.getEmail());
-        } else if (loginRequestDto.getMobile() != null && !loginRequestDto.getMobile().isEmpty()) {
-            user = userService.getUserByMobile(Long.parseLong(loginRequestDto.getMobile()));
         } else {
-            throw new UserNotFoundException("Either email or mobile must be provided for login.");
+            user = userService.getUserByMobile(Long.parseLong(loginRequestDto.getMobile()));
         }
 
         boolean passwordMatches = passwordEncoder.matches(
@@ -45,6 +43,7 @@ public class AuthService {
                 .id(passwordMatches ? user.getId() : null)
                 .build();
     }
+
 
     public RegisterResponseDto register(@Valid @NotNull RegisterRequestDto registerRequestDto) {
         Users user = Users.builder()
