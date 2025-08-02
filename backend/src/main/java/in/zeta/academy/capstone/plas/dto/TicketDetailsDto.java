@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class TicketDetailsDto {
     private Long ticketId;
+    private Long loanId;
     private String subject;
     private String description;
     private TicketStatus status;
