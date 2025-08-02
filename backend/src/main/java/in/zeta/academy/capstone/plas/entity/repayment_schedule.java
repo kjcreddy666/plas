@@ -2,10 +2,7 @@ package in.zeta.academy.capstone.plas.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -13,9 +10,10 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Table(name = "repayment_schedule")
-public class Emi {
+public class repayment_schedule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
