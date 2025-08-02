@@ -2,11 +2,12 @@ package in.zeta.academy.capstone.plas.service;
 
 import in.zeta.academy.capstone.plas.dto.AdminLoanApplicationDto;
 import in.zeta.academy.capstone.plas.dto.AdminTicketDto;
-import in.zeta.academy.capstone.plas.dto.LoanApplicationDto;
 import in.zeta.academy.capstone.plas.entity.LoanApplication;
 import in.zeta.academy.capstone.plas.entity.SupportTicket;
 import in.zeta.academy.capstone.plas.enums.LoanApplicationStatus;
 import in.zeta.academy.capstone.plas.enums.TicketStatus;
+import in.zeta.academy.capstone.plas.exception.LoanNotFoundException;
+import in.zeta.academy.capstone.plas.exception.TicketNotFoundException;
 import in.zeta.academy.capstone.plas.repository.LoanApplicationRepository;
 import in.zeta.academy.capstone.plas.repository.SupportTicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,12 +60,13 @@ public class AdminService {
                 .toList();
     }
 
-    public LoanApplication updateLoanStatus(Long loanId, LoanApplicationStatus status, String remarks) {
+    public LoanApplication updateLoanStatus(Long loanId, LoanApplicationStatus status, String remarks, LocalDateTime now) {
         LoanApplication loanApplication = loanApplicationRepository.findById(loanId)
-                .orElseThrow(() -> new RuntimeException("Loan application not found"));
+                .orElseThrow(() -> new LoanNotFoundException("Loan application not found"));
 
         loanApplication.setStatus(status);
         loanApplication.setReviewRemarks(remarks);
+        loanApplication.setReviewedAt(now);
 
         return loanApplicationRepository.save(loanApplication);
     }
@@ -104,7 +106,7 @@ public class AdminService {
 
     public SupportTicket updateTicketStatus(Long ticketId, String status, String response, LocalDateTime now) {
         SupportTicket ticket = supportTicketRepository.findById(ticketId)
-                .orElseThrow(() -> new RuntimeException("Support ticket not found"));
+                .orElseThrow(() -> new TicketNotFoundException("Support ticket not found"));
 
         ticket.setStatus(TicketStatus.valueOf(status));
         ticket.setResponse(response);

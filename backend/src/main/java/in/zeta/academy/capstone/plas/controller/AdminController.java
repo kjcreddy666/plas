@@ -38,7 +38,7 @@ public class AdminController {
     @PutMapping("/loan/{loanId}/status")
     public ResponseEntity<HttpStatus> updateLoanStatus(@PathVariable Long loanId,
                                                        @RequestBody LoanUpdationRequestDto request) {
-        LoanApplication updated = adminService.updateLoanStatus(loanId, request.getStatus(), request.getRemarks());
+        LoanApplication updated = adminService.updateLoanStatus(loanId, request.getStatus(), request.getRemarks(), LocalDateTime.now());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
