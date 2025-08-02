@@ -40,6 +40,7 @@ public class AuthService {
                 .message(passwordMatches ? "Login successful" : "Invalid credentials")
                 .token(passwordMatches ? jwtService.generateToken(user) : null)
                 .id(passwordMatches ? user.getId() : null)
+                .role(passwordMatches ? user.getRole(): null)
                 .build();
     }
 
