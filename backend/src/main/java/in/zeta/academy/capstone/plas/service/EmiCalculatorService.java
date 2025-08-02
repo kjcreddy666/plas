@@ -1,12 +1,15 @@
 package in.zeta.academy.capstone.plas.service;
 
+import in.zeta.academy.capstone.plas.dto.RepaymentScheduleResponseDto;
 import in.zeta.academy.capstone.plas.entity.LoanApplication;
-import in.zeta.academy.capstone.plas.entity.Emi;
+import in.zeta.academy.capstone.plas.entity.repayment_schedule;
+import in.zeta.academy.capstone.plas.exception.LoanNotFoundException;
 import in.zeta.academy.capstone.plas.repository.LoanApplicationRepository;
 import in.zeta.academy.capstone.plas.repository.EmiRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +18,6 @@ import java.util.List;
 public class EmiCalculatorService {
 
     private final EmiRepository emiRepository;
-
     private final LoanApplicationRepository loanApplicationRepository;
 
     public double calculateEmi(double principal, double annualRate, int tenureMonths) {
@@ -24,11 +26,26 @@ public class EmiCalculatorService {
                 (Math.pow(1 + monthlyRate, tenureMonths) - 1);
     }
 
-    public List<Emi> generateRepaymentSchedule(Long loanId, double annualRate) {
+    public List<RepaymentScheduleResponseDto> generateRepaymentSchedule(Long loanId, double annualRate) {
         LoanApplication loan = loanApplicationRepository.findById(loanId)
-                .orElseThrow(() -> new RuntimeException("Loan not found with id: " + loanId));
+                .orElseThrow(() -> new LoanNotFoundException("Loan not found with id: " + loanId));
 
-        List<Emi> schedule = new ArrayList<>();
+        // get existing schedule if it exists
+        if (!emiRepository.findByLoan_Id(loanId).isEmpty()) {
+            return emiRepository.findByLoan_Id(loanId).stream()
+                    .map(entity -> new RepaymentScheduleResponseDto(
+                            entity.getId(),
+                            entity.getMonth(),
+                            entity.getPrincipalAmount(),
+                            entity.getInterestAmount(),
+                            entity.getPrincipalAmount() + entity.getInterestAmount(),
+                            entity.getBalanceRemaining()
+                    ))
+                    .toList();
+        }
+
+        // if no existing schedule, creating new schedule
+        List<RepaymentScheduleResponseDto> schedule = new ArrayList<>();
         double monthlyRate = annualRate / (12 * 100);
         double emi = calculateEmi(loan.getAmount(), annualRate, loan.getTenureMonths());
         double balance = loan.getAmount();
@@ -38,16 +55,24 @@ public class EmiCalculatorService {
             double principal = emi - interest;
             balance -= principal;
 
-            Emi entry = Emi.builder()
+            repayment_schedule payment = repayment_schedule.builder()
                     .loan(loan)
                     .month(month)
                     .principalAmount(principal)
                     .interestAmount(interest)
-                    .balanceRemaining(Math.max(balance, 0))
+                    .balanceRemaining(balance)
+                    .paymentUpdatedAt(LocalDateTime.now())
                     .build();
-
-            schedule.add(entry);
+            repayment_schedule savedPayment = emiRepository.save(payment);
+            schedule.add(new RepaymentScheduleResponseDto(
+                    savedPayment.getId(),
+                    month,
+                    principal,
+                    interest,
+                    emi,
+                    balance
+            ));
         }
-        return emiRepository.saveAll(schedule);
+        return schedule;
     }
 }

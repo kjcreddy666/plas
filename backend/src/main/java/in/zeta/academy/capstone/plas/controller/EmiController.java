@@ -1,7 +1,8 @@
 package in.zeta.academy.capstone.plas.controller;
 
 import in.zeta.academy.capstone.plas.dto.EmiRequestDto;
-import in.zeta.academy.capstone.plas.entity.Emi;
+import in.zeta.academy.capstone.plas.dto.RepaymentScheduleResponseDto;
+import in.zeta.academy.capstone.plas.entity.repayment_schedule;
 import in.zeta.academy.capstone.plas.service.EmiCalculatorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,9 +30,9 @@ public class EmiController {
     }
 
     @PostMapping("/repayments/{loanId}")
-    public ResponseEntity<List<Emi>> generateSchedule(@PathVariable Long loanId,
-                                                      @RequestParam double annualRate) {
-        List<Emi> schedule = emiCalculatorService.generateRepaymentSchedule(loanId, annualRate);
+    public ResponseEntity<List<RepaymentScheduleResponseDto>> generateSchedule(@PathVariable Long loanId,
+                                                                     @RequestParam double annualRate) {
+        List<RepaymentScheduleResponseDto> schedule = emiCalculatorService.generateRepaymentSchedule(loanId, annualRate);
         return ResponseEntity.ok(schedule);
     }
 }
