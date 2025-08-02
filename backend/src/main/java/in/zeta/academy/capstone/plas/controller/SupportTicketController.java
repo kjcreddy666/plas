@@ -2,7 +2,6 @@ package in.zeta.academy.capstone.plas.controller;
 
 import in.zeta.academy.capstone.plas.dto.TicketDetailsDto;
 import in.zeta.academy.capstone.plas.dto.TicketRequestDto;
-import in.zeta.academy.capstone.plas.entity.SupportTicket;
 import in.zeta.academy.capstone.plas.service.SupportTicketService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
