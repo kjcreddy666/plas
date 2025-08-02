@@ -26,10 +26,9 @@ public class SupportTicketService {
     private final UserService userService;
     private final LoanApplicationService loanApplicationService;
 
-    public SupportTicket createTicket( @Valid @NotNull TicketRequestDto dto) {
+    public TicketDetailsDto createTicket(@Valid @NotNull TicketRequestDto dto) {
         Users user = userService.getUserById(dto.getUserId());
-        LoanApplication loanApplication = loanApplicationService
-                .getApplicationById(dto.getLoanApplicationId());
+        LoanApplication loanApplication = loanApplicationService.getApplicationById(dto.getLoanApplicationId());
 
         SupportTicket ticket = SupportTicket.builder()
                 .user(user)
@@ -41,8 +40,20 @@ public class SupportTicketService {
                 .response("")
                 .build();
 
-        return supportTicketRepository.save(ticket);
+        SupportTicket savedTicket = supportTicketRepository.save(ticket);
+
+        return new TicketDetailsDto(
+                savedTicket.getId(),
+                ticket.getLoanApplication().getId(),
+                savedTicket.getSubject(),
+                savedTicket.getDescription(),
+                savedTicket.getStatus(),
+                savedTicket.getCreatedAt(),
+                savedTicket.getUpdatedAt(),
+                savedTicket.getResponse()
+        );
     }
+
 
     public List<TicketDetailsDto> getTicketDetailsByUserId(UUID userId) {
         List<SupportTicket> tickets = supportTicketRepository.findByUserId(userId);
@@ -54,6 +65,7 @@ public class SupportTicketService {
         return tickets.stream()
                 .map(ticket -> new TicketDetailsDto(
                         ticket.getId(),
+                        ticket.getLoanApplication().getId(),
                         ticket.getSubject(),
                         ticket.getDescription(),
                         ticket.getStatus(),
@@ -70,6 +82,7 @@ public class SupportTicketService {
 
         return new TicketDetailsDto(
                 ticket.getId(),
+                ticket.getLoanApplication().getId(),
                 ticket.getSubject(),
                 ticket.getDescription(),
                 ticket.getStatus(),

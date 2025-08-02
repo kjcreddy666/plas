@@ -2,7 +2,6 @@ package in.zeta.academy.capstone.plas.controller;
 
 import in.zeta.academy.capstone.plas.dto.TicketDetailsDto;
 import in.zeta.academy.capstone.plas.dto.TicketRequestDto;
-import in.zeta.academy.capstone.plas.entity.SupportTicket;
 import in.zeta.academy.capstone.plas.service.SupportTicketService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -20,10 +19,11 @@ public class SupportTicketController {
     private final SupportTicketService supportTicketService;
 
     @PostMapping("/create")
-    public ResponseEntity<SupportTicket> createTicket(@Valid @RequestBody TicketRequestDto dto) {
-        SupportTicket ticket = supportTicketService.createTicket(dto);
+    public ResponseEntity<TicketDetailsDto> createTicket(@Valid @RequestBody TicketRequestDto dto) {
+        TicketDetailsDto ticket = supportTicketService.createTicket(dto);
         return ResponseEntity.ok(ticket);
     }
+
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<TicketDetailsDto>> getTicketByUserId(@PathVariable UUID userId) {
