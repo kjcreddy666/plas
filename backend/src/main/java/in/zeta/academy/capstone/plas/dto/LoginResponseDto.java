@@ -1,5 +1,6 @@
 package in.zeta.academy.capstone.plas.dto;
 
+import in.zeta.academy.capstone.plas.enums.Role;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,4 +22,5 @@ public class LoginResponseDto {
     private String message;
     private String token;
     private UUID id;
+    private Role role;
 }
