@@ -1,0 +1,94 @@
+/* auth.css */
+
+/* Form container */
+.auth-form {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Headings */
+  .auth-heading {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  /* Required field indicator */
+  .auth-required {
+    color: red;
+    margin-left: 4px;
+  }
+  
+  /* Input group spacing */
+  .auth-form-group {
+    margin-bottom: 1.25rem;
+  }
+  
+  /* Labels */
+  .auth-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #444;
+  }
+  
+  /* Inputs and textareas */
+  .auth-input,
+  .auth-textarea {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  
+  .auth-input:focus,
+  .auth-textarea:focus {
+    border-color: #7256FF;
+    box-shadow: 0 0 0 3px rgba(114, 86, 255, 0.2);
+    outline: none;
+  }
+  
+  /* Button and link row */
+  .auth-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+  }
+  
+  /* Links */
+  .auth-link {
+    font-size: 0.95rem;
+    color: #7256FF;
+    text-decoration: underline;
+    transition: color 0.2s;
+  }
+  
+  .auth-link:hover {
+    color: #5c44d9;
+  }
+  
+  /* Buttons */
+  .auth-button {
+    padding: 0.6rem 1.2rem;
+    background-color: #7256FF;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 6px;
+    border: none;
+    transition: background-color 0.2s, transform 0.2s;
+  }
+  
+  .auth-button:hover {
+    background-color: #5c44d9;
+    transform: translateY(-1px);
+  }
+  
