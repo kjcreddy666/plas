@@ -6,8 +6,12 @@ import in.zeta.academy.capstone.plas.entity.LoanApplication;
 import in.zeta.academy.capstone.plas.entity.SupportTicket;
 import in.zeta.academy.capstone.plas.entity.Users;
 import in.zeta.academy.capstone.plas.enums.TicketStatus;
+import in.zeta.academy.capstone.plas.exception.LoanNotFoundException;
 import in.zeta.academy.capstone.plas.exception.TicketNotFoundException;
+import in.zeta.academy.capstone.plas.exception.UserNotFoundException;
+import in.zeta.academy.capstone.plas.repository.LoanApplicationRepository;
 import in.zeta.academy.capstone.plas.repository.SupportTicketRepository;
+import in.zeta.academy.capstone.plas.repository.UserRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -23,12 +27,12 @@ import java.util.stream.Collectors;
 public class SupportTicketService {
 
     private final SupportTicketRepository supportTicketRepository;
-    private final UserService userService;
-    private final LoanApplicationService loanApplicationService;
+    private final UserRepository userRepository;
+    private final LoanApplicationRepository loanApplicationRepository;
 
     public TicketDetailsDto createTicket(@Valid @NotNull TicketRequestDto dto) {
-        Users user = userService.getUserById(dto.getUserId());
-        LoanApplication loanApplication = loanApplicationService.getApplicationById(dto.getLoanApplicationId());
+        Users user = userRepository.findById(dto.getUserId()).orElseThrow(()-> new UserNotFoundException("User not found with id: " + dto.getUserId()));
+        LoanApplication loanApplication = loanApplicationRepository.findById(dto.getLoanApplicationId()).orElseThrow(() -> new LoanNotFoundException("Loan not found with id: " + dto.getLoanApplicationId()));
 
         SupportTicket ticket = SupportTicket.builder()
                 .user(user)
