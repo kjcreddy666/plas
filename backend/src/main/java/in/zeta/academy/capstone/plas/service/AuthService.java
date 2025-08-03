@@ -7,6 +7,7 @@ import in.zeta.academy.capstone.plas.dto.RegisterResponseDto;
 import in.zeta.academy.capstone.plas.entity.Users;
 import in.zeta.academy.capstone.plas.enums.Role;
 import in.zeta.academy.capstone.plas.exception.UserNotFoundException;
+import in.zeta.academy.capstone.plas.repository.UserRepository;
 import in.zeta.academy.capstone.plas.security.JwtService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -19,6 +20,7 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class AuthService {
+    private final UserRepository userRepository;
     private final UserService userService;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
@@ -27,9 +29,9 @@ public class AuthService {
         Users user;
 
         if (loginRequestDto.getEmail() != null && !loginRequestDto.getEmail().isBlank()) {
-            user = userService.getUserByEmail(loginRequestDto.getEmail());
+            user = userRepository.findByEmail(loginRequestDto.getEmail()).orElseThrow(() -> new UserNotFoundException("User not found with email: " +loginRequestDto.getEmail()));
         } else {
-            user = userService.getUserByMobile(Long.parseLong(loginRequestDto.getMobile()));
+            user = userRepository.findByMobile(Long.parseLong(loginRequestDto.getMobile())).orElseThrow(() -> new UserNotFoundException("User not found with mobile: " +loginRequestDto.getMobile()));
         }
 
         boolean passwordMatches = passwordEncoder.matches(
