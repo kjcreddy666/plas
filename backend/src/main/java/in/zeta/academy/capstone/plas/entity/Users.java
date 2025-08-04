@@ -5,11 +5,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Id;
-import lombok.*;
-
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import in.zeta.academy.capstone.plas.enums.Role;
 import java.util.UUID;
-
 @Entity
 @Getter
 @Setter
