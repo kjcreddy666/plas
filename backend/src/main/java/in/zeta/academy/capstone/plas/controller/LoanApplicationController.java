@@ -35,32 +35,3 @@ public class LoanApplicationController {
                 .orElse(ResponseEntity.notFound().build());
     }
 }
-
-/*
-@RestController
-@RequestMapping("/loans")
-@RequiredArgsConstructor
-public class LoanApplicationController {
-    @Autowired
-    private final LoanApplicationService loanApplicationService;
-    @PostMapping("/apply")
-    public ResponseEntity<LoanApplication> applyForLoan(@Valid @RequestBody LoanApplication loanApplication) {
-        LoanApplication savedApp = loanApplicationService.applyForLoan(loanApplication);
-        return ResponseEntity.ok(savedApp);
-    }
-
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<LoanApplication>> getApplicationsByUser(@PathVariable UUID userId) {
-        return ResponseEntity.ok(loanApplicationService.getApplicationsByUser(userId));
-    }
-
-    @GetMapping("/{loanId}")
-    public ResponseEntity<LoanApplication> getApplicationById(@PathVariable Long loanId) {
-        LoanApplication loanApplication = loanApplicationService.getApplicationById(loanId);
-        if(loanApplication == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(loanApplication);
-    }
-}*/
-

@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 public class LoanResponseDto {
-
     private Long id;
     private Double amount;
     private Integer tenureMonths;
