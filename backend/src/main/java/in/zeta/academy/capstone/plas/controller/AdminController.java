@@ -8,7 +8,6 @@ import in.zeta.academy.capstone.plas.enums.Role;
 import in.zeta.academy.capstone.plas.enums.TicketStatus;
 import in.zeta.academy.capstone.plas.service.AdminService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
