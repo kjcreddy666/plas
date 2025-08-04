@@ -4,6 +4,7 @@ import in.zeta.academy.capstone.plas.dto.*;
 import in.zeta.academy.capstone.plas.entity.LoanApplication;
 import in.zeta.academy.capstone.plas.entity.SupportTicket;
 import in.zeta.academy.capstone.plas.enums.LoanApplicationStatus;
+import in.zeta.academy.capstone.plas.enums.Role;
 import in.zeta.academy.capstone.plas.enums.TicketStatus;
 import in.zeta.academy.capstone.plas.service.AdminService;
 import lombok.RequiredArgsConstructor;
