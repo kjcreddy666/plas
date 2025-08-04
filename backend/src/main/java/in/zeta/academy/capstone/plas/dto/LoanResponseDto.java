@@ -1,6 +1,5 @@
 package in.zeta.academy.capstone.plas.dto;
 
-import in.zeta.academy.capstone.plas.entity.Users;
 import lombok.Builder;
 import lombok.Data;
 
@@ -18,7 +17,7 @@ public class LoanResponseDto {
     private String status;
     private LocalDate applicationDate;
     private String purpose;
-    private Users reviewedBy;
+    private String reviewedBy;
     private LocalDateTime reviewedAt;
     private String reviewRemarks;
 }
