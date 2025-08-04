@@ -10,7 +10,6 @@ import in.zeta.academy.capstone.plas.repository.LoanApplicationRepository;
 import in.zeta.academy.capstone.plas.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -82,6 +81,7 @@ public class LoanApplicationService {
                 .status(loan.getStatus().toString())
                 .applicationDate(loan.getApplicationDate())
                 .purpose(loan.getPurpose())
+                .reviewedBy(loan.getReviewedBy())
                 .reviewedAt(loan.getReviewedAt())
                 .reviewRemarks(loan.getReviewRemarks())
                 .build();
