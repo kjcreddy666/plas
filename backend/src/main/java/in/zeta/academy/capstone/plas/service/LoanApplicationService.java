@@ -81,51 +81,9 @@ public class LoanApplicationService {
                 .status(loan.getStatus().toString())
                 .applicationDate(loan.getApplicationDate())
                 .purpose(loan.getPurpose())
-                .reviewedBy(String.valueOf(loan.getUser().getRole()))
+                .reviewedBy("ADMIN")
                 .reviewedAt(loan.getReviewedAt())
                 .reviewRemarks(loan.getReviewRemarks())
                 .build();
     }
 }
-
-/*
-@Service
-@RequiredArgsConstructor
-public class LoanApplicationService {
-    @Autowired
-    LoanApplicationRepository loanApplicationRepository;
-    @Autowired
-    UserRepository userRepository;
-    @Transactional
-    public LoanApplication applyForLoan(LoanApplication loanApplication) {
-        if (loanApplication.getIncome() < 25000) {
-            throw new IllegalArgumentException("Income must be greater than ₹25,000");
-        }
-        if (loanApplication.getCreditScore() == null || loanApplication.getCreditScore() < 300 || loanApplication.getCreditScore() > 900) {
-            throw new IllegalArgumentException("Credit score must be between 300 and 900");
-        }
-
-        LocalDate today = LocalDate.now();
-        List<LoanApplication> recent = loanApplicationRepository
-                .findByUserIdAndApplicationDate(loanApplication.getUser().getId(), today);
-        if (!recent.isEmpty()) {
-            throw new IllegalArgumentException("You can only submit one application every 24 hours");
-        }
-
-        Users user = userRepository.findById(loanApplication.getUser().getId())
-                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + loanApplication.getUser().getId()));
-        loanApplication.setUser(user);
-        loanApplication.setApplicationDate(today);
-        loanApplication.setStatus(LoanApplicationStatus.NEW);
-        return loanApplicationRepository.save(loanApplication);
-    }
-
-    public List<LoanApplication> getApplicationsByUser(UUID userId) {
-        return loanApplicationRepository.findByUserId(userId);
-    }
-    public LoanApplication getApplicationById(Long loanId) {
-        return loanApplicationRepository.findById(loanId).orElseThrow(() -> new LoanNotFoundException("Loan application not found with ID: " + loanId));
-    }
-}*/
-
-
