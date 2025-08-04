@@ -4,12 +4,15 @@ import in.zeta.academy.capstone.plas.dto.AdminLoanApplicationDto;
 import in.zeta.academy.capstone.plas.dto.AdminTicketDto;
 import in.zeta.academy.capstone.plas.entity.LoanApplication;
 import in.zeta.academy.capstone.plas.entity.SupportTicket;
+import in.zeta.academy.capstone.plas.entity.Users;
 import in.zeta.academy.capstone.plas.enums.LoanApplicationStatus;
+import in.zeta.academy.capstone.plas.enums.Role;
 import in.zeta.academy.capstone.plas.enums.TicketStatus;
 import in.zeta.academy.capstone.plas.exception.LoanNotFoundException;
 import in.zeta.academy.capstone.plas.exception.TicketNotFoundException;
 import in.zeta.academy.capstone.plas.repository.LoanApplicationRepository;
 import in.zeta.academy.capstone.plas.repository.SupportTicketRepository;
+import in.zeta.academy.capstone.plas.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +26,9 @@ public class AdminService {
 
     @Autowired
     SupportTicketRepository supportTicketRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     public List<AdminLoanApplicationDto> getPendingLoanApplications() {
         List<LoanApplication> loanApplications = loanApplicationRepository.findByStatusIn(
@@ -66,6 +72,8 @@ public class AdminService {
 
         loanApplication.setStatus(status);
         loanApplication.setReviewRemarks(remarks);
+        Users admin = userRepository.findByRole(Role.ADMIN);
+        loanApplication.setReviewedBy(admin);
         loanApplication.setReviewedAt(now);
 
         return loanApplicationRepository.save(loanApplication);
