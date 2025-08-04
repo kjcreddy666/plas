@@ -1,7 +1,12 @@
 package in.zeta.academy.capstone.plas.dto;
 import jakarta.validation.constraints.*;
-import lombok.Data;
-@Data
+import lombok.*;
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class LoanRequestDto {
     @NotNull(message = "User ID is required")
     private String userId;

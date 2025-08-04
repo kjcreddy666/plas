@@ -1,13 +1,16 @@
 package in.zeta.academy.capstone.plas.dto;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Data
+//@Data
 @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class LoanResponseDto {
     private Long id;
     private Double amount;
