@@ -2,6 +2,7 @@ package in.zeta.academy.capstone.plas.service;
 
 import in.zeta.academy.capstone.plas.dto.AdminLoanApplicationDto;
 import in.zeta.academy.capstone.plas.dto.AdminTicketDto;
+import in.zeta.academy.capstone.plas.dto.AdminUserDto;
 import in.zeta.academy.capstone.plas.entity.LoanApplication;
 import in.zeta.academy.capstone.plas.entity.SupportTicket;
 import in.zeta.academy.capstone.plas.entity.Users;
@@ -13,22 +14,23 @@ import in.zeta.academy.capstone.plas.exception.TicketNotFoundException;
 import in.zeta.academy.capstone.plas.repository.LoanApplicationRepository;
 import in.zeta.academy.capstone.plas.repository.SupportTicketRepository;
 import in.zeta.academy.capstone.plas.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class AdminService {
-    @Autowired
-    LoanApplicationRepository loanApplicationRepository;
 
-    @Autowired
-    SupportTicketRepository supportTicketRepository;
+    private final LoanApplicationRepository loanApplicationRepository;
 
-    @Autowired
-    UserRepository userRepository;
+    private final SupportTicketRepository supportTicketRepository;
+
+    private final UserRepository userRepository;
 
     public List<AdminLoanApplicationDto> getPendingLoanApplications() {
         List<LoanApplication> loanApplications = loanApplicationRepository.findByStatusIn(
@@ -121,5 +123,17 @@ public class AdminService {
         ticket.setUpdatedAt(now);
 
         return supportTicketRepository.save(ticket);
+    }
+
+    public Page<AdminUserDto> getAllUsers(Pageable pageable) {
+        return userRepository.findAllByRoleNot(Role.ADMIN, pageable)
+                .map(user -> new AdminUserDto(
+                        user.getId(),
+                        user.getName(),
+                        user.getEmail(),
+                        user.getMobile(),
+                        user.getAddress(),
+                        user.getRole()
+                ));
     }
 }
