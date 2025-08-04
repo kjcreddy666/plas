@@ -1,6 +1,6 @@
 package in.zeta.academy.capstone.plas.service;
 
-import in.zeta.academy.capstone.plas.dto.TicketDetailsDto;
+import in.zeta.academy.capstone.plas.dto.TicketResponseDto;
 import in.zeta.academy.capstone.plas.dto.TicketRequestDto;
 import in.zeta.academy.capstone.plas.entity.LoanApplication;
 import in.zeta.academy.capstone.plas.entity.SupportTicket;
@@ -30,7 +30,7 @@ public class SupportTicketService {
     private final UserRepository userRepository;
     private final LoanApplicationRepository loanApplicationRepository;
 
-    public TicketDetailsDto createTicket(@Valid @NotNull TicketRequestDto dto) {
+    public TicketResponseDto createTicket(@Valid @NotNull TicketRequestDto dto) {
         Users user = userRepository.findById(dto.getUserId()).orElseThrow(()->
                 new UserNotFoundException("User not found with id: " + dto.getUserId()));
         LoanApplication loanApplication = loanApplicationRepository.findById(dto.getLoanApplicationId()).orElseThrow(()->
@@ -48,7 +48,7 @@ public class SupportTicketService {
 
         SupportTicket savedTicket = supportTicketRepository.save(ticket);
 
-        return new TicketDetailsDto(
+        return new TicketResponseDto(
                 savedTicket.getId(),
                 ticket.getLoanApplication().getId(),
                 savedTicket.getSubject(),
@@ -61,7 +61,7 @@ public class SupportTicketService {
     }
 
 
-    public List<TicketDetailsDto> getTicketDetailsByUserId(UUID userId) {
+    public List<TicketResponseDto> getTicketDetailsByUserId(UUID userId) {
         List<SupportTicket> tickets = supportTicketRepository.findByUserId(userId);
 
         if (tickets.isEmpty()) {
@@ -69,7 +69,7 @@ public class SupportTicketService {
         }
 
         return tickets.stream()
-                .map(ticket -> new TicketDetailsDto(
+                .map(ticket -> new TicketResponseDto(
                         ticket.getId(),
                         ticket.getLoanApplication().getId(),
                         ticket.getSubject(),
@@ -82,11 +82,11 @@ public class SupportTicketService {
                 .collect(Collectors.toList());
     }
 
-    public TicketDetailsDto getTicketDetailsByTicketId(Long ticketId) {
+    public TicketResponseDto getTicketDetailsByTicketId(Long ticketId) {
         SupportTicket ticket = supportTicketRepository.findById(ticketId)
                 .orElseThrow(() -> new TicketNotFoundException("Ticket not found with ID: " + ticketId));
 
-        return new TicketDetailsDto(
+        return new TicketResponseDto(
                 ticket.getId(),
                 ticket.getLoanApplication().getId(),
                 ticket.getSubject(),
