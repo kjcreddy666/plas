@@ -1,4 +1,4 @@
-package in.zeta.academy.capstone.plas.LoanApplication;
+package in.zeta.academy.capstone.plas.service;
 import in.zeta.academy.capstone.plas.dto.LoanRequestDto;
 import in.zeta.academy.capstone.plas.dto.LoanResponseDto;
 import in.zeta.academy.capstone.plas.entity.LoanApplication;
@@ -7,7 +7,6 @@ import in.zeta.academy.capstone.plas.enums.LoanApplicationStatus;
 import in.zeta.academy.capstone.plas.exception.UserNotFoundException;
 import in.zeta.academy.capstone.plas.repository.LoanApplicationRepository;
 import in.zeta.academy.capstone.plas.repository.UserRepository;
-import in.zeta.academy.capstone.plas.service.LoanApplicationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
