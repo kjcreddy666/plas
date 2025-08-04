@@ -1,6 +1,6 @@
 package in.zeta.academy.capstone.plas.controller;
 
-import in.zeta.academy.capstone.plas.dto.TicketDetailsDto;
+import in.zeta.academy.capstone.plas.dto.TicketResponseDto;
 import in.zeta.academy.capstone.plas.dto.TicketRequestDto;
 import in.zeta.academy.capstone.plas.service.SupportTicketService;
 import jakarta.validation.Valid;
@@ -19,21 +19,21 @@ public class SupportTicketController {
     private final SupportTicketService supportTicketService;
 
     @PostMapping("/create")
-    public ResponseEntity<TicketDetailsDto> createTicket(@Valid @RequestBody TicketRequestDto dto) {
-        TicketDetailsDto ticket = supportTicketService.createTicket(dto);
+    public ResponseEntity<TicketResponseDto> createTicket(@Valid @RequestBody TicketRequestDto dto) {
+        TicketResponseDto ticket = supportTicketService.createTicket(dto);
         return ResponseEntity.ok(ticket);
     }
 
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<TicketDetailsDto>> getTicketByUserId(@PathVariable UUID userId) {
-        List<TicketDetailsDto> tickets = supportTicketService.getTicketDetailsByUserId(userId);
+    public ResponseEntity<List<TicketResponseDto>> getTicketByUserId(@PathVariable UUID userId) {
+        List<TicketResponseDto> tickets = supportTicketService.getTicketDetailsByUserId(userId);
         return ResponseEntity.ok(tickets);
     }
 
     @GetMapping("/ticket/{ticketId}")
-    public ResponseEntity<TicketDetailsDto> getTicketById(@PathVariable Long ticketId) {
-        TicketDetailsDto ticket = supportTicketService.getTicketDetailsByTicketId(ticketId);
+    public ResponseEntity<TicketResponseDto> getTicketById(@PathVariable Long ticketId) {
+        TicketResponseDto ticket = supportTicketService.getTicketDetailsByTicketId(ticketId);
         return ResponseEntity.ok(ticket);
     }
 }
