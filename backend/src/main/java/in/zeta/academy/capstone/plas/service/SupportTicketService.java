@@ -32,7 +32,8 @@ public class SupportTicketService {
 
     public TicketDetailsDto createTicket(@Valid @NotNull TicketRequestDto dto) {
         Users user = userRepository.findById(dto.getUserId()).orElseThrow(()-> new UserNotFoundException("User not found with id: " + dto.getUserId()));
-        LoanApplication loanApplication = loanApplicationRepository.findById(dto.getLoanApplicationId()).orElseThrow(() -> new LoanNotFoundException("Loan not found with id: " + dto.getLoanApplicationId()));
+        LoanApplication loanApplication = loanApplicationRepository.findById(dto.getLoanApplicationId()).orElseThrow(()-> new LoanNotFoundException
+                ("Loan application not found with id: " + dto.getLoanApplicationId()));
 
         SupportTicket ticket = SupportTicket.builder()
                 .user(user)
