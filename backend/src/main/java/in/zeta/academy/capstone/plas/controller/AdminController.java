@@ -1,16 +1,16 @@
 package in.zeta.academy.capstone.plas.controller;
 
-import in.zeta.academy.capstone.plas.dto.AdminLoanApplicationDto;
-import in.zeta.academy.capstone.plas.dto.AdminTicketDto;
-import in.zeta.academy.capstone.plas.dto.LoanUpdationRequestDto;
-import in.zeta.academy.capstone.plas.dto.TicketUpdationRequestDto;
+import in.zeta.academy.capstone.plas.dto.*;
 import in.zeta.academy.capstone.plas.entity.LoanApplication;
 import in.zeta.academy.capstone.plas.entity.SupportTicket;
 import in.zeta.academy.capstone.plas.enums.LoanApplicationStatus;
+import in.zeta.academy.capstone.plas.enums.Role;
 import in.zeta.academy.capstone.plas.enums.TicketStatus;
 import in.zeta.academy.capstone.plas.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminController {
 
-    @Autowired
-    AdminService adminService;
+    private final AdminService adminService;
 
     @GetMapping("/loans/filter")
     public ResponseEntity<List<AdminLoanApplicationDto>> getFilteredApplications(@RequestParam List<LoanApplicationStatus> statuses) {
@@ -65,6 +64,15 @@ public class AdminController {
                                                          @RequestBody TicketUpdationRequestDto request) {
         SupportTicket updatedTicket = adminService.updateTicketStatus(ticketId, TicketStatus.RESOLVED.name(), request.getResponse(), LocalDateTime.now());
         return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<Page<AdminUserDto>> getAllUsers(Pageable pageable) {
+        Page<AdminUserDto> usersPage = adminService.getAllUsers(pageable);
+        if (usersPage.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(usersPage);
     }
 
 }
