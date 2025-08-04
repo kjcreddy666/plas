@@ -81,7 +81,7 @@ public class LoanApplicationService {
                 .status(loan.getStatus().toString())
                 .applicationDate(loan.getApplicationDate())
                 .purpose(loan.getPurpose())
-                .reviewedBy(loan.getReviewedBy())
+                .reviewedBy(String.valueOf(loan.getUser().getRole()))
                 .reviewedAt(loan.getReviewedAt())
                 .reviewRemarks(loan.getReviewRemarks())
                 .build();
