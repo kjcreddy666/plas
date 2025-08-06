@@ -80,7 +80,7 @@ class AdminControllerTest {
     @Test
     void testGetSupportTickets() {
         List<AdminTicketDto> tickets = List.of(new AdminTicketDto(1L, java.util.UUID.randomUUID(), 3L, "Subject", "Description", null, null, null, null));
-        when(adminService.getAllTickets()).thenReturn(tickets);
+        when(adminService.autoCloseResolvedTickets()).thenReturn(tickets);
 
         ResponseEntity<List<AdminTicketDto>> response = adminController.getSupportTickets();
 
