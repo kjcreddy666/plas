@@ -20,12 +20,14 @@ public class EmiCalculatorService {
     private final EmiRepository emiRepository;
     private final LoanApplicationRepository loanApplicationRepository;
 
+    // Calculates the EMI for a given principal, annual interest rate, and tenure in months
     public double calculateEmi(double principal, double annualRate, int tenureMonths) {
         double monthlyRate = annualRate / (12 * 100); // convert annual % to monthly fraction
         return (principal * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths)) /
                 (Math.pow(1 + monthlyRate, tenureMonths) - 1);
     }
 
+    // Generates the repayment schedule for a given loan
     public List<RepaymentScheduleResponseDto> generateRepaymentSchedule(Long loanId, double annualRate) {
         LoanApplication loan = loanApplicationRepository.findById(loanId)
                 .orElseThrow(() -> new LoanNotFoundException("Loan not found with id: " + loanId));
