@@ -114,6 +114,36 @@ public class AdminService {
                 .toList();
     }
 
+    public List<AdminTicketDto> autoCloseResolvedTickets() {
+        List<SupportTicket> tickets = supportTicketRepository.findAll();
+        LocalDateTime now = LocalDateTime.now();
+
+        for (SupportTicket ticket : tickets) {
+            if (ticket.getStatus() == TicketStatus.RESOLVED) {
+                if (ticket.getUpdatedAt() != null && ticket.getUpdatedAt().isBefore(now.minusHours(24))) {
+                    ticket.setStatus(TicketStatus.CLOSED);
+                    ticket.setUpdatedAt(now);
+                    supportTicketRepository.save(ticket);
+                }
+            }
+        }
+
+        // Return the latest list of AdminTicketDto
+        return supportTicketRepository.findAll().stream()
+                .map(ticket -> new AdminTicketDto(
+                        ticket.getId(),
+                        ticket.getUser().getId(),
+                        ticket.getLoanApplication() != null ? ticket.getLoanApplication().getId() : null,
+                        ticket.getSubject(),
+                        ticket.getDescription(),
+                        ticket.getStatus(),
+                        ticket.getCreatedAt(),
+                        ticket.getUpdatedAt(),
+                        ticket.getResponse()))
+                .toList();
+    }
+
+
     public SupportTicket updateTicketStatus(Long ticketId, String status, String response, LocalDateTime now) {
         SupportTicket ticket = supportTicketRepository.findById(ticketId)
                 .orElseThrow(() -> new TicketNotFoundException("Support ticket not found"));

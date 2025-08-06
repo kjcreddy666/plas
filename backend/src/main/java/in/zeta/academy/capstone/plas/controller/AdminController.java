@@ -51,7 +51,7 @@ public class AdminController {
 
     @GetMapping("/tickets")
     public ResponseEntity<List<AdminTicketDto>> getSupportTickets() {
-        List<AdminTicketDto> tickets = adminService.getAllTickets();
+        List<AdminTicketDto> tickets = adminService.autoCloseResolvedTickets();
         if (tickets.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
