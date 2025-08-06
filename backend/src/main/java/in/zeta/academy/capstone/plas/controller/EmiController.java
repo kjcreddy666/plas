@@ -2,7 +2,6 @@ package in.zeta.academy.capstone.plas.controller;
 
 import in.zeta.academy.capstone.plas.dto.EmiRequestDto;
 import in.zeta.academy.capstone.plas.dto.RepaymentScheduleResponseDto;
-import in.zeta.academy.capstone.plas.entity.repayment_schedule;
 import in.zeta.academy.capstone.plas.service.EmiCalculatorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
