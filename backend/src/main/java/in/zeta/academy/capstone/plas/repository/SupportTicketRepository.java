@@ -8,4 +8,6 @@ import java.util.UUID;
 
 public interface SupportTicketRepository extends JpaRepository<SupportTicket, Long> {
     List<SupportTicket> findByUserId(UUID userId);
+
+    List<SupportTicket> findByStatusIn(List<String> list);
 }
