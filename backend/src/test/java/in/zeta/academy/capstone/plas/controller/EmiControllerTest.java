@@ -1,6 +1,7 @@
 package in.zeta.academy.capstone.plas.controller;
 
 import in.zeta.academy.capstone.plas.dto.EmiRequestDto;
+import in.zeta.academy.capstone.plas.dto.PageResponse;
 import in.zeta.academy.capstone.plas.dto.RepaymentScheduleResponseDto;
 import in.zeta.academy.capstone.plas.service.EmiCalculatorService;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,16 +52,23 @@ class EmiControllerTest {
     void testGenerateSchedule() {
         Long loanId = 1L;
         double annualRate = 10.0;
+        int page = 0;
+        int size = 12;
         List<RepaymentScheduleResponseDto> mockSchedule = List.of(
                 new RepaymentScheduleResponseDto(1L, 1, 1000.0, 100.0, 1100.0, 90000.0)
         );
 
         when(emiCalculatorService.generateRepaymentSchedule(loanId, annualRate)).thenReturn(mockSchedule);
 
-        ResponseEntity<List<RepaymentScheduleResponseDto>> response = emiController.generateSchedule(loanId, annualRate);
+        ResponseEntity<PageResponse<RepaymentScheduleResponseDto>> response =
+                emiController.generateSchedule(loanId, annualRate, page, size);
 
         assertEquals(200, response.getStatusCodeValue());
-        assertEquals(mockSchedule, response.getBody());
+        assertNotNull(response.getBody());
+        assertEquals(mockSchedule, response.getBody().getContent());
+        assertEquals(page, response.getBody().getPage());
+        assertEquals(size, response.getBody().getSize());
+        assertEquals(mockSchedule.size(), response.getBody().getTotalElements());
 
         verify(emiCalculatorService, times(1)).generateRepaymentSchedule(loanId, annualRate);
     }

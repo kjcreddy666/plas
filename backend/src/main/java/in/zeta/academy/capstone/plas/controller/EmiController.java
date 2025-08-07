@@ -1,6 +1,7 @@
 package in.zeta.academy.capstone.plas.controller;
 
 import in.zeta.academy.capstone.plas.dto.EmiRequestDto;
+import in.zeta.academy.capstone.plas.dto.PageResponse;
 import in.zeta.academy.capstone.plas.dto.RepaymentScheduleResponseDto;
 import in.zeta.academy.capstone.plas.service.EmiCalculatorService;
 import lombok.RequiredArgsConstructor;
@@ -27,12 +28,22 @@ public class EmiController {
                 "emi", emi
         ));
     }
-
     @PostMapping("/repayments/{loanId}")
-    public ResponseEntity<List<RepaymentScheduleResponseDto>> generateSchedule(@PathVariable Long loanId,
-                                                                     @RequestParam double annualRate) {
+    public ResponseEntity<PageResponse<RepaymentScheduleResponseDto>> generateSchedule(
+            @PathVariable Long loanId,
+            @RequestParam double annualRate,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "12") int size) {
+
         List<RepaymentScheduleResponseDto> schedule = emiCalculatorService.generateRepaymentSchedule(loanId, annualRate);
-        return ResponseEntity.ok(schedule);
+        int start = Math.min(page * size, schedule.size());
+        int end = Math.min(start + size, schedule.size());
+        List<RepaymentScheduleResponseDto> pagedList = schedule.subList(start, end);
+
+        PageResponse<RepaymentScheduleResponseDto> response = new PageResponse<>(
+                pagedList, page, size, schedule.size()
+        );
+        return ResponseEntity.ok(response);
     }
 }
 
