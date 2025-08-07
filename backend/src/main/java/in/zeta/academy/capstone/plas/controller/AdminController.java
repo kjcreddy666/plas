@@ -74,4 +74,12 @@ public class AdminController {
         return ResponseEntity.ok(usersPage);
     }
 
+    @GetMapping("/tickets/filter")
+    public ResponseEntity<List<TicketResponseDto>> getFilteredSupportTickets(@RequestParam List<TicketStatus> statuses) {
+        List<TicketResponseDto> filteredTickets = adminService.getFilteredSupportTickets(statuses);
+        if (filteredTickets.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(filteredTickets);
+    }
 }
