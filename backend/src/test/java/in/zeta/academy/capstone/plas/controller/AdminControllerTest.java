@@ -2,6 +2,7 @@ package in.zeta.academy.capstone.plas.controller;
 
 import in.zeta.academy.capstone.plas.dto.*;
 import in.zeta.academy.capstone.plas.enums.LoanApplicationStatus;
+import in.zeta.academy.capstone.plas.enums.TicketStatus;
 import in.zeta.academy.capstone.plas.service.AdminService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -137,6 +138,37 @@ class AdminControllerTest {
         when(adminService.getAllTickets()).thenReturn(List.of());
 
         ResponseEntity<List<AdminTicketDto>> response = adminController.getSupportTickets();
+
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+    }
+
+    // Test for non-empty result
+    @Test
+    void testGetFilteredSupportTickets() {
+        List<TicketResponseDto> mockTickets = List.of(
+                new TicketResponseDto(1L,1234L, "Subject", "Description", TicketStatus.OPEN, null, null, null)
+        );
+        when(adminService.getFilteredSupportTickets(List.of(TicketStatus.OPEN, TicketStatus.CLOSED)))
+                .thenReturn(mockTickets);
+
+        ResponseEntity<List<TicketResponseDto>> response = adminController.getFilteredSupportTickets(
+                List.of(TicketStatus.OPEN, TicketStatus.CLOSED)
+        );
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(1, response.getBody().size());
+        verify(adminService, times(1)).getFilteredSupportTickets(List.of(TicketStatus.OPEN, TicketStatus.CLOSED));
+    }
+
+    // Test for empty result
+    @Test
+    void testGetFilteredSupportTickets_NoContent() {
+        when(adminService.getFilteredSupportTickets(List.of(TicketStatus.OPEN, TicketStatus.CLOSED)))
+                .thenReturn(List.of());
+
+        ResponseEntity<List<TicketResponseDto>> response = adminController.getFilteredSupportTickets(
+                List.of(TicketStatus.OPEN, TicketStatus.CLOSED)
+        );
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
     }
