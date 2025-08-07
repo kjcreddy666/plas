@@ -3,6 +3,7 @@ package in.zeta.academy.capstone.plas.service;
 import in.zeta.academy.capstone.plas.dto.AdminLoanApplicationDto;
 import in.zeta.academy.capstone.plas.dto.AdminTicketDto;
 import in.zeta.academy.capstone.plas.dto.AdminUserDto;
+import in.zeta.academy.capstone.plas.dto.TicketResponseDto;
 import in.zeta.academy.capstone.plas.entity.LoanApplication;
 import in.zeta.academy.capstone.plas.entity.SupportTicket;
 import in.zeta.academy.capstone.plas.entity.Users;
@@ -166,4 +167,23 @@ public class AdminService {
                         user.getRole()
                 ));
     }
+
+    public List<TicketResponseDto> getFilteredSupportTickets(List<TicketStatus> statuses) {
+        List<SupportTicket> tickets = supportTicketRepository.findByStatusIn(
+                statuses.stream().map(TicketStatus::name).toList());
+
+        return tickets.stream()
+                .map(ticket -> new TicketResponseDto(
+                        ticket.getId(),
+                        ticket.getLoanApplication() != null ? ticket.getLoanApplication().getId() : null,
+                        ticket.getSubject(),
+                        ticket.getDescription(),
+                        ticket.getStatus(),
+                        ticket.getCreatedAt(),
+                        ticket.getUpdatedAt(),
+                        ticket.getResponse()
+                ))
+                .toList();
+    }
+
 }
