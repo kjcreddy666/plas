@@ -3,6 +3,7 @@ package in.zeta.academy.capstone.plas.service;
 import in.zeta.academy.capstone.plas.dto.AdminLoanApplicationDto;
 import in.zeta.academy.capstone.plas.dto.AdminTicketDto;
 import in.zeta.academy.capstone.plas.dto.AdminUserDto;
+import in.zeta.academy.capstone.plas.dto.TicketResponseDto;
 import in.zeta.academy.capstone.plas.entity.LoanApplication;
 import in.zeta.academy.capstone.plas.entity.SupportTicket;
 import in.zeta.academy.capstone.plas.entity.Users;
@@ -215,5 +216,25 @@ public class AdminServiceTest {
 
         Page<AdminUserDto> result = adminService.getAllUsers(PageRequest.of(0, 10));
         assertTrue(result.getContent().isEmpty());
+    }
+
+    @Test
+    void getFilteredSupportTickets_returnsList() {
+        when(supportTicketRepository.findByStatusIn(anyList()))
+                .thenReturn(List.of(supportTicket));
+        List<TicketResponseDto> result = adminService.getFilteredSupportTickets(
+                List.of(TicketStatus.OPEN, TicketStatus.CLOSED));
+        assertEquals(1, result.size());
+        assertEquals(supportTicket.getId(), result.get(0).getId());
+        assertEquals(supportTicket.getStatus(), result.get(0).getStatus());
+    }
+
+    @Test
+    void getFilteredSupportTickets_returnsEmptyList() {
+        when(supportTicketRepository.findByStatusIn(anyList()))
+                .thenReturn(Collections.emptyList());
+        List<TicketResponseDto> result = adminService.getFilteredSupportTickets(
+                List.of(TicketStatus.OPEN, TicketStatus.CLOSED));
+        assertTrue(result.isEmpty());
     }
 }
