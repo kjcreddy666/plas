@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid d-flex flex-column justify-content-center align-items-center text-center px-3 py-5">
+    <section id="feature-section" class="container-fluid d-flex flex-column justify-content-center align-items-center text-center px-3 py-5">
       <h1>Why Choose LoanFlow?</h1>
       <p style="max-width: 600px;">
         Experience a streamlined loan application process designed with your convenience in mind.
@@ -37,9 +37,10 @@
           description="Our team is here to guide you through the process."
         />
       </div>
-    </div>
+    </section>
   </template>
-
+  
   <script setup>
   import FeatureCard from './FeatureCard.vue'
   </script>
+  
