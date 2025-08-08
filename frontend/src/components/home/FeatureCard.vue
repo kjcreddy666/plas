@@ -7,7 +7,7 @@
       <p class="text-muted mb-0">{{ description }}</p>
     </div>
   </template>
-
+  
   <script>
   export default {
     name: 'CardComponent',
@@ -18,3 +18,4 @@
     }
   }
   </script>
+  
