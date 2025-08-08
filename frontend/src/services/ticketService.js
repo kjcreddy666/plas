@@ -2,7 +2,8 @@ import axios from 'axios';
 import { handleRequest } from './requestHandler';
 import { getAuthHeaders } from './authHeaders';
 
-const API_URL = 'http://localhost:8080/support';
+//const API_URL = 'http://localhost:8080/support';
+const API_URL = '/api/support';
 
 export const createTicket = async (data) =>
   handleRequest(
