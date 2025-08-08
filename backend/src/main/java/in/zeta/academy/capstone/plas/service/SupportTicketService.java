@@ -31,11 +31,14 @@ public class SupportTicketService {
     private final LoanApplicationRepository loanApplicationRepository;
 
     public TicketResponseDto createTicket(@Valid @NotNull TicketRequestDto dto) {
+        // Validate user and return user not found if user does not exist
         Users user = userRepository.findById(dto.getUserId()).orElseThrow(()->
                 new UserNotFoundException("User not found with id: " + dto.getUserId()));
+        //validate loan and return loan not found if loan does not exist
         LoanApplication loanApplication = loanApplicationRepository.findById(dto.getLoanApplicationId()).orElseThrow(()->
                 new LoanNotFoundException("Loan application not found with id: " + dto.getLoanApplicationId()));
 
+        // Create support ticket using builder pattern
         SupportTicket ticket = SupportTicket.builder()
                 .user(user)
                 .loanApplication(loanApplication)
@@ -48,6 +51,7 @@ public class SupportTicketService {
 
         SupportTicket savedTicket = supportTicketRepository.save(ticket);
 
+        // Return the created ticket details using TicketResponse Dto
         return new TicketResponseDto(
                 savedTicket.getId(),
                 ticket.getLoanApplication().getId(),
@@ -64,10 +68,12 @@ public class SupportTicketService {
     public List<TicketResponseDto> getTicketDetailsByUserId(UUID userId) {
         List<SupportTicket> tickets = supportTicketRepository.findByUserId(userId);
 
+        // If no tickets found for the user, throw an TicketNotFoundException
         if (tickets.isEmpty()) {
             throw new TicketNotFoundException("No tickets found for user ID: " + userId);
         }
 
+        // Convert the list of SupportTicket to a list of TicketResponseDto
         return tickets.stream()
                 .map(ticket -> new TicketResponseDto(
                         ticket.getId(),
@@ -83,9 +89,12 @@ public class SupportTicketService {
     }
 
     public TicketResponseDto getTicketDetailsByTicketId(Long ticketId) {
+        // Get the ticket by ID
+        // If the ticket is not found, throw a TicketNotFoundException
         SupportTicket ticket = supportTicketRepository.findById(ticketId)
                 .orElseThrow(() -> new TicketNotFoundException("Ticket not found with ID: " + ticketId));
 
+        // Convert the SupportTicket to a TicketResponseDto
         return new TicketResponseDto(
                 ticket.getId(),
                 ticket.getLoanApplication().getId(),
