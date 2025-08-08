@@ -11,7 +11,7 @@
         <!-- Amount (Left-aligned) -->
         <div>
           Amount<br />
-          <strong>${{ amount.toLocaleString() }}</strong>
+          <strong>₹{{ amount.toLocaleString() }}</strong>
         </div>
 
         <!-- Term (Center) -->
