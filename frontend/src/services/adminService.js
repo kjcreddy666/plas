@@ -3,7 +3,8 @@ import qs from 'qs'; // make sure qs is installed: `npm install qs`
 import { handleRequest } from './requestHandler';
 import { getAuthHeaders } from './authHeaders';
 
-const API_URL = 'http://localhost:8080/admin';
+//const API_URL = 'http://localhost:8080/admin';
+const API_URL = '/api/admin';
 
 export const getAllLoanApplications = async () =>
   handleRequest(
