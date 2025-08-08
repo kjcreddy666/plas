@@ -5,6 +5,7 @@ import {
     getUserByEmail,
     getUserByMobile,
     updateUser,
+    updateUserProfile,
     deleteUser
   } from '@/services/userService';
   
@@ -33,6 +34,10 @@ import {
       return await updateUser(id, updatedData);
     };
   
+    const modifyUserProfile = async (id, profileData) => {
+      return await updateUserProfile(id, profileData);
+    };
+  
     const removeUser = async (id) => {
       return await deleteUser(id);
     };
@@ -44,7 +49,7 @@ import {
       fetchUserByEmail,
       fetchUserByMobile,
       modifyUser,
+      modifyUserProfile,
       removeUser
     };
   };
-  
