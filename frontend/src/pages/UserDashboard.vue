@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-4">
+  <div class="container py-4 min-vh-100">
     <DashboardHeader :user="user" />
     <StatsRow :stats="stats" />
     <div class="row g-4">
@@ -45,7 +45,7 @@ const quickActions = [
   { label: '+   Apply for New Loan', to: "/apply" },
   { label: '📄  Calculate EMI', to: "/emi-calculator" },
   { label: '❓  Get Support', to: "/support-ticket"},
-  { label: '📈  Update Profile', to: "/profile" },
+  { label: '📈  View Profile', to: "/profile" },
 ];
 
 const loanApplications = ref([]);
@@ -76,7 +76,6 @@ const getLoanStatusClass = (status) => {
 const getTicketStatusClass = (status) => {
   switch (status) {
     case 'Resolved': return 'text-bg-success';
-    case 'In Progress': return 'text-bg-primary';
     case 'Open': return 'text-bg-secondary';
     case 'Closed': return 'text-bg-dark';
     default: return 'text-bg-light';
@@ -84,10 +83,10 @@ const getTicketStatusClass = (status) => {
 };
 
 onMounted(async () => {
-  if (!userId) return;
+  if (!userId.value) return;
 
-  await fetchLoansByUser(userId);
-  await fetchTicketsByUser(userId);
+  await fetchLoansByUser(userId.value);
+  await fetchTicketsByUser(userId.value);
 
   loanApplications.value = loans.value.map((loan) => ({
     id: loan.id,
@@ -100,19 +99,20 @@ onMounted(async () => {
   }));
 
   supportTickets.value = tickets.value.map((ticket) => ({
+    ticketId: ticket.id,
     subject: ticket.subject,
     date: formatDate(ticket.createdAt),
     status: ticket.status,
     statusClass: getTicketStatusClass(ticket.status),
   }));
 
-  const approvedCount = loans.value.filter((l) => l.status === 'Approved').length;
-  const pendingCount = loans.value.filter((l) => l.status === 'Pending').length;
+  const approvedCount = loans.value.filter((l) => l.status === 'APPROVED').length;
+  const pendingCount = loans.value.filter((l) => l.status === 'NEW' || l.status === 'UNDER_REVIEW').length;
 
   stats.value = [
     { label: 'Total Applications', value: loans.value.length, class: 'fw-bold' },
     { label: 'Approved', value: approvedCount, class: 'text-success fw-bold' },
-    { label: 'Pending', value: pendingCount, class: 'text-warning fw-bold' },
+    { label: 'UNDER', value: pendingCount, class: 'text-warning fw-bold' },
     { label: 'Support Tickets', value: tickets.value.length, class: 'fw-bold' },
   ];
 });

@@ -1,38 +1,26 @@
-# Use Node.js 20 as base image
-FROM node:20-alpine
+# Use OpenJDK 17 as base image
+FROM openjdk:17-jdk-slim
 
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json (if available)
-COPY package*.json ./
+# Install Maven
+RUN apt-get update && apt-get install -y maven && rm -rf /var/lib/apt/lists/*
 
-# Install dependencies
-RUN npm install
+# Copy pom.xml first to leverage Docker cache
+COPY pom.xml .
 
-# Copy environment files
-COPY .env* ./
+# Download dependencies
+RUN mvn dependency:go-offline -B
 
 # Copy source code
-COPY . .
-
-# Set production environment for the build
-ENV NODE_ENV=production
+COPY src ./src
 
 # Build the application
-RUN npm run build
+RUN mvn clean package -DskipTests
 
-# Use nginx to serve the built app
-FROM nginx:alpine
+# Expose the port the app runs on
+EXPOSE 8080
 
-# Copy built app to nginx html directory
-COPY --from=0 /app/dist /usr/share/nginx/html
-
-# Copy custom nginx configuration
-COPY nginx.conf /etc/nginx/nginx.conf
-
-# Expose port 80
-EXPOSE 80
-
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Run the application
+CMD ["java", "-jar", "-Dspring.profiles.active=docker", "target/plas-0.0.1-SNAPSHOT.jar"]

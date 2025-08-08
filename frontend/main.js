@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import './assets/css/main.css';
+import './assests/css/main.css';
 
 const app = createApp(App)
 app.use(router)

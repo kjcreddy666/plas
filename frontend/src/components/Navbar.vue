@@ -1,8 +1,8 @@
 <template>
-  <div class="d-flex justify-content-center mt-4 sticky-top">
+  <div class="d-flex justify-content-center  sticky-top">
     <nav
-      class="navbar navbar-expand-lg bg-body-tertiary py-2 px-4 rounded-4 shadow"
-      style="width: 80%; max-width: 1200px"
+      class="navbar navbar-expand-lg bg-body-tertiary py-2 px-4 rounded-4 "
+      style="width: 100%"
     >
       <div class="container-fluid">
         <router-link class="navbar-brand fs-3" to="/"><strong>LoanFlow</strong></router-link>
@@ -27,7 +27,20 @@
               :key="index"
               class="nav-item mx-3"
             >
-              <router-link class="nav-link" :to="item.to" exact-active-class="active">
+              <!-- Use <a> for hash links -->
+              <a
+                v-if="item.to.startsWith('#')"
+                class="nav-link"
+                :href="item.to"
+              >
+                {{ item.label }}
+              </a>
+              <router-link
+                v-else
+                class="nav-link"
+                :to="item.to"
+                active-class="active"
+              >
                 {{ item.label }}
               </router-link>
             </li>
@@ -35,35 +48,37 @@
 
           <!-- Right-side Auth/Profile Dropdown -->
           <div class="d-flex align-items-center">
-            <div v-if="isAuthenticated" class="dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                id="profileDropdown"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <i class="bi bi-person-circle fs-4"></i>
-              </a>
-              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                <li>
-                  <router-link class="dropdown-item" to="/profile">Profile</router-link>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#" @click.prevent="logout">Logout</a>
-                </li>
-              </ul>
-            </div>
-            <div v-else>
-            <router-link to="/auth?tab=login" class="btn btn-outline-primary me-2">
-              Sign In
-            </router-link>
-            <router-link to="/auth?tab=register" class="btn btn-outline-primary">
-              Sign Up
-            </router-link>
-          </div>
+            <template v-if="isAuthenticated">
+              <div class="dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  role="button"
+                  id="profileDropdown"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <i class="bi bi-person-circle fs-4"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                  <li>
+                    <router-link class="dropdown-item" to="/profile">Profile</router-link>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#" @click.prevent="logout">Logout</a>
+                  </li>
+                </ul>
+              </div>
+            </template>
 
+            <template v-else>
+              <router-link to="/auth?tab=login" class="btn btn-outline-primary me-2">
+                Sign In
+              </router-link>
+              <router-link to="/auth?tab=register" class="btn btn-outline-primary">
+                Sign Up
+              </router-link>
+            </template>
           </div>
         </div>
       </div>
@@ -80,10 +95,9 @@ export default {
       role: null,
       navItems: {
         guest: [
-          { label: "Home", to: "/" },
-          { label: "About Us", to: "#" },
-          { label: "Contact Us", to: "#" },
-
+          { label: "Home", to: "#financial-future" },
+          { label: "About Us", to: "#feature-section" },
+          { label: "Contact Us", to: "#footer" },
         ],
         customer: [
           { label: "Home", to: "/" },

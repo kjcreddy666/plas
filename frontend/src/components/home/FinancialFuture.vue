@@ -17,7 +17,7 @@
         <div class="col-6 d-flex align-items-center justify-content-center">
           <div class="illustration-container">
             <img 
-              src="@/assests/images/loan-illustration.svg" 
+              src="@/assets/images/loan-illustration.svg" 
               alt="Loan Application Illustration" 
               class="img-fluid loan-illustration"
               style="max-width: 625px; height: auto;"
