@@ -33,6 +33,7 @@ public class AdminService {
 
     private final UserRepository userRepository;
 
+    // to get all pending loan applications that are NEW and UNDER_REVIEW
     public List<AdminLoanApplicationDto> getPendingLoanApplications() {
         List<LoanApplication> loanApplications = loanApplicationRepository.findByStatusIn(
                 List.of(LoanApplicationStatus.NEW.name(), LoanApplicationStatus.UNDER_REVIEW.name()));
@@ -51,6 +52,7 @@ public class AdminService {
                 .toList();
     }
 
+    // to get loan applications based on the selected status
     public List<AdminLoanApplicationDto> getFilteredLoanApplications(List<LoanApplicationStatus> statuses) {
         List<LoanApplication> loanApplications =  loanApplicationRepository.findByStatusIn(
                 statuses.stream().map(LoanApplicationStatus::name).toList());
@@ -69,6 +71,7 @@ public class AdminService {
                 .toList();
     }
 
+    // to update the status of a loan application
     public LoanApplication updateLoanStatus(Long loanId, LoanApplicationStatus status, String remarks, LocalDateTime now) {
         LoanApplication loanApplication = loanApplicationRepository.findById(loanId)
                 .orElseThrow(() -> new LoanNotFoundException("Loan application not found"));
@@ -82,6 +85,7 @@ public class AdminService {
         return loanApplicationRepository.save(loanApplication);
     }
 
+    // to get all the loan applications
     public List<AdminLoanApplicationDto> getAllLoanApplications() {
         List<LoanApplication> loanApplications = loanApplicationRepository.findAll();
         return loanApplications.stream()
@@ -99,6 +103,7 @@ public class AdminService {
                 .toList();
     }
 
+    // to get all the support tickets
     public List<AdminTicketDto> getAllTickets() {
         List<SupportTicket> tickets = supportTicketRepository.findAll();
         return tickets.stream()
@@ -115,6 +120,7 @@ public class AdminService {
                 .toList();
     }
 
+    // to auto-close resolved tickets after 24 hours
     public List<AdminTicketDto> autoCloseResolvedTickets() {
         List<SupportTicket> tickets = supportTicketRepository.findAll();
         LocalDateTime now = LocalDateTime.now();
@@ -145,6 +151,7 @@ public class AdminService {
     }
 
 
+    // to update the status of a support ticket
     public SupportTicket updateTicketStatus(Long ticketId, String status, String response, LocalDateTime now) {
         SupportTicket ticket = supportTicketRepository.findById(ticketId)
                 .orElseThrow(() -> new TicketNotFoundException("Support ticket not found"));
@@ -156,6 +163,7 @@ public class AdminService {
         return supportTicketRepository.save(ticket);
     }
 
+    // to get all the users
     public Page<AdminUserDto> getAllUsers(Pageable pageable) {
         return userRepository.findAllByRoleNot(Role.ADMIN, pageable)
                 .map(user -> new AdminUserDto(
@@ -168,6 +176,7 @@ public class AdminService {
                 ));
     }
 
+    // to get support tickets by user ID
     public List<TicketResponseDto> getFilteredSupportTickets(List<TicketStatus> statuses) {
         List<SupportTicket> tickets = supportTicketRepository.findByStatusIn(
                 statuses.stream().map(TicketStatus::name).toList());
