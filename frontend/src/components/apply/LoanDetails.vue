@@ -49,7 +49,7 @@ export default {
       localForm: { ...this.form },
       loanAmountError: null,
       loanTermError: null,
-      loanPurposeError: null  
+      loanPurposeError: null
     };
   },
   watch: {
@@ -63,7 +63,7 @@ export default {
     methods: {
       validateLoanAmount(){
         if (this.localForm.amount === null || this.localForm.amount === '') {
-        this.loanAmountError = 'Loan amount is required.'; 
+        this.loanAmountError = 'Loan amount is required.';
         } else if (this.localForm.amount < 10000) {
         this.loanAmountError = 'Loan amount must be at least 10,000.';
         } else if (this.localForm.amount % 1000 !== 0) {
@@ -78,7 +78,7 @@ export default {
         if (!this.localForm.tenureMonths) {
           this.loanTermError = 'Loan term is required.';
         return false;
-      } 
+      }
         this.loanTermError = null;
         return true;
       },
@@ -86,7 +86,7 @@ export default {
         if (!this.localForm.purpose) {
           this.loanPurposeError = 'Loan purpose is required.';
           return false;
-        } 
+        }
         this.loanPurposeError = null;
         return true;
       },
@@ -100,4 +100,4 @@ export default {
       }
     },
   }
-</script>  
+  </script>
