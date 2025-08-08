@@ -8,6 +8,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+// to update the status of a loan application.
 public class LoanUpdationRequestDto {
     private LoanApplicationStatus status;
     private String remarks;

@@ -11,6 +11,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+// DTO for Admin User
 public class AdminUserDto {
 
     private UUID id;

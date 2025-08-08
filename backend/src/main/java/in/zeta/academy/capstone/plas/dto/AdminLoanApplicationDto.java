@@ -11,6 +11,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+// Represents a loan application for admin view
 public class AdminLoanApplicationDto {
     private Long loanId;
     private UUID userId;

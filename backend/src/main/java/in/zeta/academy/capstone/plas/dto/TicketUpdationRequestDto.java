@@ -8,6 +8,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+// to update the response of a ticket.
 public class TicketUpdationRequestDto {
 
     @NotNull

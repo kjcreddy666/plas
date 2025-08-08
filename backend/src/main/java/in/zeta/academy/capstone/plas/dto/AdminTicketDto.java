@@ -13,6 +13,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+// to represent a ticket in the admin panel.
 public class AdminTicketDto {
     private Long id;
     private UUID userId;
