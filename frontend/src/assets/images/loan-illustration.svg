@@ -1,0 +1,74 @@
+<svg width="600" height="400" viewBox="0 0 600 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background shape -->
+  <ellipse cx="300" cy="250" rx="280" ry="120" fill="#E8E5FF" opacity="0.6"/>
+  
+  <!-- Coins -->
+  <circle cx="100" cy="80" r="25" fill="#FFD700" stroke="#FFA500" stroke-width="2"/>
+  <text x="100" y="88" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#FFA500">$</text>
+  
+  <circle cx="480" cy="60" r="25" fill="#FFD700" stroke="#FFA500" stroke-width="2"/>
+  <text x="480" y="68" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#FFA500">$</text>
+  
+  <circle cx="80" cy="200" r="20" fill="#FFD700" stroke="#FFA500" stroke-width="2"/>
+  <text x="80" y="207" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#FFA500">$</text>
+  
+  <!-- Clipboard/Document -->
+  <rect x="200" y="80" width="180" height="240" rx="8" fill="#FFFFFF" stroke="#7256FF" stroke-width="3"/>
+  <rect x="200" y="80" width="180" height="30" fill="#7256FF"/>
+  <circle cx="300" cy="95" r="8" fill="#FFFFFF"/>
+  
+  <!-- LOAN text on document -->
+  <text x="300" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#7256FF">LOAN</text>
+  
+  <!-- Document lines -->
+  <line x1="220" y1="180" x2="360" y2="180" stroke="#E0E0E0" stroke-width="2"/>
+  <line x1="220" y1="200" x2="360" y2="200" stroke="#E0E0E0" stroke-width="2"/>
+  <line x1="220" y1="220" x2="360" y2="220" stroke="#E0E0E0" stroke-width="2"/>
+  <line x1="220" y1="240" x2="300" y2="240" stroke="#E0E0E0" stroke-width="2"/>
+  
+  <!-- Magnifying glass -->
+  <circle cx="420" cy="160" r="30" fill="none" stroke="#7256FF" stroke-width="4"/>
+  <line x1="442" y1="182" x2="470" y2="210" stroke="#7256FF" stroke-width="4" stroke-linecap="round"/>
+  
+  <!-- Person -->
+  <circle cx="450" cy="250" r="20" fill="#FFB366"/>
+  <rect x="440" y="270" width="20" height="40" fill="#FF8C42"/>
+  <rect x="435" y="300" width="10" height="30" fill="#4A4A4A"/>
+  <rect x="455" y="300" width="10" height="30" fill="#4A4A4A"/>
+  <rect x="428" y="280" width="12" height="25" fill="#FFB366"/>
+  <rect x="460" y="280" width="12" height="25" fill="#FFB366"/>
+  
+  <!-- Wallet/Card -->
+  <rect x="80" y="280" width="100" height="60" rx="8" fill="#7256FF" stroke="#5A3FD8" stroke-width="2"/>
+  <rect x="90" y="295" width="30" height="20" fill="#FFFFFF" rx="2"/>
+  <circle cx="150" cy="305" r="8" fill="#FFD700"/>
+  <text x="150" y="309" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#7256FF">$</text>
+  
+  <!-- Money bills -->
+  <rect x="450" y="320" width="40" height="25" fill="#90EE90" stroke="#32CD32" stroke-width="1"/>
+  <circle cx="470" cy="332" r="6" fill="#32CD32"/>
+  <text x="470" y="336" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#FFFFFF">$</text>
+  
+  <rect x="460" y="310" width="40" height="25" fill="#90EE90" stroke="#32CD32" stroke-width="1"/>
+  <circle cx="480" cy="322" r="6" fill="#32CD32"/>
+  <text x="480" y="326" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#FFFFFF">$</text>
+  
+  <!-- Plants -->
+  <rect x="50" y="340" width="8" height="20" fill="#8B4513"/>
+  <ellipse cx="54" cy="335" rx="12" ry="8" fill="#228B22"/>
+  <ellipse cx="58" cy="330" rx="8" ry="6" fill="#32CD32"/>
+  
+  <rect x="520" y="350" width="8" height="15" fill="#8B4513"/>
+  <ellipse cx="524" cy="345" rx="10" ry="6" fill="#228B22"/>
+  <ellipse cx="527" cy="341" rx="6" ry="4" fill="#32CD32"/>
+  
+  <!-- Additional coins scattered -->
+  <circle cx="120" cy="320" r="12" fill="#FFD700" stroke="#FFA500" stroke-width="1"/>
+  <text x="120" y="326" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#FFA500">$</text>
+  
+  <circle cx="140" cy="340" r="10" fill="#FFD700" stroke="#FFA500" stroke-width="1"/>
+  <text x="140" y="345" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#FFA500">$</text>
+  
+  <circle cx="380" cy="340" r="12" fill="#FFD700" stroke="#FFA500" stroke-width="1"/>
+  <text x="380" y="346" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#FFA500">$</text>
+</svg>
