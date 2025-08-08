@@ -1,5 +1,5 @@
 <template>
-    <div class="container my-5">
+    <div class="container my-5 min-vh-100">
       <button class="btn btn-link mb-3" @click="$router.back()">&larr; Back</button>
       <h3><strong>Ticket Details</strong></h3>
       <p class="text-muted" v-if="ticket">Application ID: {{ ticket.id }}</p>
