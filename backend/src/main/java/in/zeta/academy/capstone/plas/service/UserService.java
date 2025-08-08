@@ -52,11 +52,30 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + id));
 
         existingUser.setName(updatedUser.getName());
-        existingUser.setEmail(updatedUser.getEmail());
-        existingUser.setMobile(updatedUser.getMobile());
-        existingUser.setPassword(updatedUser.getPassword());
+        if(updatedUser.getEmail() == null || updatedUser.getEmail().isEmpty())
+        {
+            existingUser.setEmail(existingUser.getEmail());
+        } else if(userRepository.existsByEmail(updatedUser.getEmail()) && !existingUser.getEmail().equals(updatedUser.getEmail())) {
+            throw new UserAlreadyExistException("Email already exists: " + updatedUser.getEmail());
+        }else{
+            existingUser.setEmail(updatedUser.getEmail());
+        }
+
+        if(updatedUser.getMobile() == null || updatedUser.getMobile() == 0)
+        {
+            existingUser.setMobile(existingUser.getMobile());
+        }else if(userRepository.existsByMobile(updatedUser.getMobile()) && !existingUser.getMobile().equals(updatedUser.getMobile())) {
+            throw new UserAlreadyExistException("Mobile number already exists: " + updatedUser.getMobile());
+        }else{
+            existingUser.setMobile(updatedUser.getMobile());
+        }
+        if(updatedUser.getPassword() == null || updatedUser.getPassword().isEmpty())
+        {
+            existingUser.setPassword(existingUser.getPassword());
+        }else {
+            existingUser.setPassword(updatedUser.getPassword());
+        }
         existingUser.setAddress(updatedUser.getAddress());
-        existingUser.setRole(updatedUser.getRole());
 
         return userRepository.save(existingUser);
     }
