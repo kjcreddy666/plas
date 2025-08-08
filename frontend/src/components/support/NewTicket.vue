@@ -1,28 +1,21 @@
 <template>
-  <div>
+  <div >
     <!-- Success Overlay Popup -->
     <div
       v-if="showToast"
       class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
       style="background: rgba(0,0,0,0.3); backdrop-filter: blur(7px); z-index: 2000;"
+     >
+    <div
+      class="rounded-4 shadow p-5 mx-auto text-center d-flex flex-column align-items-center"
+      style="min-width: 380px; min-height: 230px; width: 41vw; max-width: 515px; font-size: 1.3rem; background: #fff; color: #000;"
     >
-      <div
-        class="rounded-4 shadow p-5 mx-auto text-center d-flex flex-column align-items-center"
-        style="min-width: 380px; min-height: 230px; width: 41vw; max-width: 515px; font-size: 1.3rem; color: #7256FF;"
-      >
-        <span class="display-5 mb-3"><i class="bi bi-check2-circle"></i></span>
-        <div class="fw-semibold mb-2">
-          Ticket created successfully!
-        </div>
-        <div>Your issue will be resolved soon.</div>
-        <button
-          type="button"
-          class="btn btn-light mt-4"
-          @click="closeToast"
-        >
-          Close
-        </button>
+      <span class="display-5 mb-3"><i class="bi bi-check2-circle"></i></span>
+      <div class="fw-semibold mb-2">
+        Ticket created successfully!
       </div>
+    <div>Your issue will be resolved soon.</div>
+    </div>
     </div>
 
     <!-- The Form Card -->
@@ -36,7 +29,7 @@
           <select v-model="form.loanApplicationId" class="form-select" required>
             <option disabled value="">Select a loan</option>
             <option v-for="loan in loans" :key="loan.id" :value="loan.id">
-              {{ loan.id }} - ₹{{ loan.amount }} - {{ loan.purpose }}
+            Loan # {{ loan.id }} - ₹{{ loan.amount }} - {{ loan.purpose }}
             </option>
           </select>
         </div>
@@ -103,6 +96,7 @@ const submitTicket = async () => {
     alert('User ID and Loan Application ID are required.')
     return
   }
+
   const result = await create(form.value)
   if (result.isSuccess) {
     form.value.subject = ''
@@ -115,4 +109,3 @@ const submitTicket = async () => {
   }
 }
 </script>
- 
