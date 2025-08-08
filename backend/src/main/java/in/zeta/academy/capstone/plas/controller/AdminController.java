@@ -23,6 +23,7 @@ public class AdminController {
 
     private final AdminService adminService;
 
+    // to get loan applications based on the selected status
     @GetMapping("/loans/filter")
     public ResponseEntity<List<AdminLoanApplicationDto>> getFilteredApplications(@RequestParam List<LoanApplicationStatus> statuses) {
         List<AdminLoanApplicationDto> filteredApplications = adminService.getFilteredLoanApplications(statuses);
@@ -32,6 +33,7 @@ public class AdminController {
         return ResponseEntity.ok(filteredApplications);
     }
 
+    // to update the status of a loan application
     @PutMapping("/loan/{loanId}/status")
     public ResponseEntity<HttpStatus> updateLoanStatus(@PathVariable Long loanId,
                                                        @RequestBody LoanUpdationRequestDto request) {
@@ -39,6 +41,7 @@ public class AdminController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    // to get all the loan applications
     @GetMapping("/loans")
     public ResponseEntity<List<AdminLoanApplicationDto>> getAllLoanApplications() {
         List<AdminLoanApplicationDto> allApplications = adminService.getAllLoanApplications();
@@ -48,6 +51,7 @@ public class AdminController {
         return ResponseEntity.ok(allApplications);
     }
 
+    // to get all the pending loan applications
     @GetMapping("/tickets")
     public ResponseEntity<List<AdminTicketDto>> getSupportTickets() {
         List<AdminTicketDto> tickets = adminService.autoCloseResolvedTickets();
@@ -57,6 +61,7 @@ public class AdminController {
         return ResponseEntity.ok(tickets);
     }
 
+    // to get all the support tickets
     @PutMapping("/ticket/{ticketId}")
     public ResponseEntity<HttpStatus> updateTicketStatus(@PathVariable Long ticketId,
                                                          @RequestBody TicketUpdationRequestDto request) {
@@ -64,6 +69,7 @@ public class AdminController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    // to get all the users
     @GetMapping("/users")
     public ResponseEntity<Page<AdminUserDto>> getAllUsers(Pageable pageable) {
         Page<AdminUserDto> usersPage = adminService.getAllUsers(pageable);
@@ -73,6 +79,7 @@ public class AdminController {
         return ResponseEntity.ok(usersPage);
     }
 
+    // to get all the support tickets based on the selected status
     @GetMapping("/tickets/filter")
     public ResponseEntity<List<TicketResponseDto>> getFilteredSupportTickets(@RequestParam List<TicketStatus> statuses) {
         List<TicketResponseDto> filteredTickets = adminService.getFilteredSupportTickets(statuses);
