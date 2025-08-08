@@ -32,8 +32,15 @@ export const useAdmin = () => {
   };
 
   const fetchTickets = async () => {
+    console.log('🎫 useAdmin: Fetching tickets from API...');
     const response = await execute(() => getAllTickets());
-    if (response.isSuccess) tickets.value = response.data;
+    console.log('🎫 useAdmin: API response:', response);
+    if (response.isSuccess) {
+      tickets.value = response.data;
+      console.log('🎫 useAdmin: Tickets stored:', tickets.value);
+    } else {
+      console.log('🎫 useAdmin: Failed to fetch tickets:', response.error);
+    }
   };
 
   const resolveTicket = async (ticketId, responseMessage) => {
