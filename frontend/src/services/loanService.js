@@ -2,7 +2,8 @@ import axios from 'axios';
 import { handleRequest } from './requestHandler';
 import { getAuthHeaders } from './authHeaders';
 
-const API_URL = 'http://localhost:8080/loans';
+//const API_URL = 'http://localhost:8080/loans';
+const API_URL = '/api/loans';
 
 export const applyForLoan = async (data) =>
   handleRequest(
