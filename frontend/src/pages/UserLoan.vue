@@ -1,8 +1,11 @@
 <template>
-  <div class="container my-5">
+  <div class="container my-5 min-vh-100">
     <button class="btn btn-link mb-3" @click="$router.back()">&larr; Back</button>
     <h3><strong>Loan Application Details</strong></h3>
     <p class="text-muted" v-if="loan">Application ID: {{ loan.id }}</p>
+    <p class="text-muted" v-if="loan && loan.monthlyInstallment">
+      Monthly Installment: ₹{{ loan.monthlyInstallment }}
+    </p>
 
     <div v-if="loading">Loading...</div>
     <div v-else-if="error" class="text-danger">Error: {{ error }}</div>
@@ -17,7 +20,6 @@
 
         <div class="right-column">
           <LoanStatusCard :loan="loan" :formattedReviewedDate="formattedReviewedDate" />
-          <!-- ✅ Added @updated event handler -->
           <AdminRemarksCard
             :loan="loan"
             :formattedReviewedDate="formattedReviewedDate"
@@ -27,10 +29,29 @@
         </div>
       </div>
 
-      <RepaymentScheduleTable
-        v-if="loan.status === 'APPROVED' && role === 'CUSTOMER'"
-        :schedule="schedule"
-      />
+      <div v-if="loan.status === 'APPROVED' && role === 'CUSTOMER'">
+        <RepaymentScheduleTable :schedule="schedule" />
+
+        <div class="mt-3 d-flex justify-content-between align-items-center">
+          <button
+            class="btn btn-outline-primary"
+            :disabled="currentPage === 0"
+            @click="prevPage"
+          >
+            &larr; Previous
+          </button>
+
+          <span>Page {{ currentPage + 1 }} of {{ totalPages }}</span>
+
+          <button
+            class="btn btn-outline-primary"
+            :disabled="currentPage + 1 >= totalPages"
+            @click="nextPage"
+          >
+            Next &rarr;
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -51,8 +72,19 @@ import RepaymentScheduleTable from '../components/loan/RepaymentScheduleTable.vu
 
 const route = useRoute();
 const role = localStorage.getItem('userRole');
+
 const { loan, loading, error, fetchLoanById } = useLoan();
-const { schedule, fetchRepaymentSchedule } = useEmi();
+const {
+  schedule,
+  totalItems,
+  currentPage,
+  pageSize,
+  fetchRepaymentSchedule
+} = useEmi();
+
+const totalPages = computed(() =>
+  Math.ceil(totalItems.value / pageSize.value)
+);
 
 function formatDateOnly(dateStr) {
   const date = new Date(dateStr);
@@ -63,7 +95,6 @@ const formattedReviewedDate = computed(() =>
   loan.value?.reviewedAt ? formatDateOnly(loan.value.reviewedAt) : null
 );
 
-// ✅ Refresh logic used both on mount and when updated
 const refreshLoan = async () => {
   const id = route.params.id;
   if (!id) return;
@@ -75,7 +106,25 @@ const refreshLoan = async () => {
       ? new Date(loan.value.reviewedAt)
       : new Date();
     const startMonth = reviewedDate.getMonth() + 2;
-    await fetchRepaymentSchedule(loan.value.id, 12, startMonth);
+
+    await fetchRepaymentSchedule(loan.value.id, 12, 0, pageSize.value);
+
+    // Set monthly estimate from first schedule entry
+    if (schedule.value && schedule.value.length > 0) {
+      loan.value.monthlyInstallment = schedule.value[0].totalAmount;
+    }
+  }
+};
+
+const nextPage = async () => {
+  if (currentPage.value + 1 < totalPages.value) {
+    await fetchRepaymentSchedule(loan.value.id, 12, currentPage.value + 1, pageSize.value);
+  }
+};
+
+const prevPage = async () => {
+  if (currentPage.value > 0) {
+    await fetchRepaymentSchedule(loan.value.id, 12, currentPage.value - 1, pageSize.value);
   }
 };
 
