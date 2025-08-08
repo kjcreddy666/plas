@@ -13,13 +13,14 @@ import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/support")
+@RequestMapping("/api/support")
 public class SupportTicketController {
 
     private final SupportTicketService supportTicketService;
 
     @PostMapping("/create")
     public ResponseEntity<TicketResponseDto> createTicket(@Valid @RequestBody TicketRequestDto dto) {
+        // Create the ticket and return the response
         TicketResponseDto ticket = supportTicketService.createTicket(dto);
         return ResponseEntity.ok(ticket);
     }
@@ -27,12 +28,14 @@ public class SupportTicketController {
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<TicketResponseDto>> getTicketByUserId(@PathVariable UUID userId) {
+        // Get the tickets for the user
         List<TicketResponseDto> tickets = supportTicketService.getTicketDetailsByUserId(userId);
         return ResponseEntity.ok(tickets);
     }
 
     @GetMapping("/ticket/{ticketId}")
     public ResponseEntity<TicketResponseDto> getTicketById(@PathVariable Long ticketId) {
+        // Get the ticket by ID
         TicketResponseDto ticket = supportTicketService.getTicketDetailsByTicketId(ticketId);
         return ResponseEntity.ok(ticket);
     }
