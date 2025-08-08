@@ -1,14 +1,11 @@
 package in.zeta.academy.capstone.plas.controller;
 import in.zeta.academy.capstone.plas.dto.LoanRequestDto;
 import in.zeta.academy.capstone.plas.dto.LoanResponseDto;
-import in.zeta.academy.capstone.plas.entity.LoanApplication;
 import in.zeta.academy.capstone.plas.service.LoanApplicationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.UUID;
 @RestController
@@ -16,6 +13,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class LoanApplicationController {
     private final LoanApplicationService loanApplicationService;
+
     @PostMapping("/apply")
     public ResponseEntity<LoanResponseDto> applyForLoan(@Valid @RequestBody LoanRequestDto loanRequestDto) {
         // Validate the loan request DTO
